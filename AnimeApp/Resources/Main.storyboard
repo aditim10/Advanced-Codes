@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24765" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LoginNav">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24743"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="s-loginNav">
+            <objects>
+                <navigationController storyboardIdentifier="LoginNavigationController" id="LoginNav" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LoginNav-bar">
+                        <rect key="frame" x="0.0" y="94" width="390" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="LoginVC" kind="relationship" relationship="rootViewController" id="seg-loginNav-root"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-loginNav" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-462" y="-150"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="s-loginVC">
+            <objects>
+                <viewController storyboardIdentifier="LoginViewController" id="LoginVC" customClass="LoginViewController" customModule="AnimeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LoginVC-view">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label contentMode="scaleToFill" text="Unlimited anime. Any time." textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-tagline">
+                                <rect key="frame" x="103.66666666666667" y="286.33333333333331" width="182.66666666666663" height="18"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.5" green="0.41999999999999998" blue="0.62" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-card">
+                                <rect key="frame" x="24" y="352.33333333333331" width="342" height="235.99999999999994"/>
+                                <subviews>
+                                    <textField contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Email address" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-email">
+                                        <rect key="frame" x="20" y="24" width="302" height="52"/>
+                                        <color key="backgroundColor" red="0.96999999999999997" green="0.94999999999999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="login.emailField" label="Email address"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="52" id="c4"/>
+                                        </constraints>
+                                        <color key="textColor" red="0.22" green="0.14999999999999999" blue="0.34999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="14"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <textField contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Password" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-password">
+                                        <rect key="frame" x="20" y="88" width="302" height="52"/>
+                                        <color key="backgroundColor" red="0.96999999999999997" green="0.94999999999999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="login.passwordField" label="Password"/>
+                                        <color key="textColor" red="0.22" green="0.14999999999999999" blue="0.34999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="14"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </textField>
+                                    <label alpha="0.0" contentMode="scaleToFill" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-error">
+                                        <rect key="frame" x="20" y="150" width="302" height="0.0"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.84999999999999998" green="0.25" blue="0.45000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-btn">
+                                        <rect key="frame" x="20" y="160.00000000000006" width="302" height="52"/>
+                                        <color key="backgroundColor" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="login.signInButton" label="Sign In"/>
+                                        <state key="normal" title="Sign In">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="16"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="loginTapped:" destination="LoginVC" eventType="touchUpInside" id="act-login"/>
+                                        </connections>
+                                    </button>
+                                    <activityIndicatorView hidden="YES" contentMode="scaleToFill" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-spinner">
+                                        <rect key="frame" x="161" y="176.00000000000006" width="20" height="20"/>
+                                        <color key="color" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" name="ThemeSurface"/>
+                                <constraints>
+                                    <constraint firstItem="LoginVC-email" firstAttribute="top" secondItem="LoginVC-card" secondAttribute="top" constant="24" id="c1"/>
+                                    <constraint firstItem="LoginVC-error" firstAttribute="leading" secondItem="LoginVC-card" secondAttribute="leading" constant="20" id="c10"/>
+                                    <constraint firstAttribute="trailing" secondItem="LoginVC-error" secondAttribute="trailing" constant="20" id="c11"/>
+                                    <constraint firstItem="LoginVC-btn" firstAttribute="top" secondItem="LoginVC-error" secondAttribute="bottom" constant="10" id="c12"/>
+                                    <constraint firstItem="LoginVC-btn" firstAttribute="leading" secondItem="LoginVC-card" secondAttribute="leading" constant="20" id="c13"/>
+                                    <constraint firstAttribute="trailing" secondItem="LoginVC-btn" secondAttribute="trailing" constant="20" id="c14"/>
+                                    <constraint firstItem="LoginVC-btn" firstAttribute="height" secondItem="LoginVC-email" secondAttribute="height" id="c15"/>
+                                    <constraint firstAttribute="bottom" secondItem="LoginVC-btn" secondAttribute="bottom" constant="24" id="c16"/>
+                                    <constraint firstItem="LoginVC-spinner" firstAttribute="centerX" secondItem="LoginVC-btn" secondAttribute="centerX" id="c17"/>
+                                    <constraint firstItem="LoginVC-spinner" firstAttribute="centerY" secondItem="LoginVC-btn" secondAttribute="centerY" id="c18"/>
+                                    <constraint firstItem="LoginVC-email" firstAttribute="leading" secondItem="LoginVC-card" secondAttribute="leading" constant="20" id="c2"/>
+                                    <constraint firstAttribute="trailing" secondItem="LoginVC-email" secondAttribute="trailing" constant="20" id="c3"/>
+                                    <constraint firstItem="LoginVC-password" firstAttribute="top" secondItem="LoginVC-email" secondAttribute="bottom" constant="12" id="c5"/>
+                                    <constraint firstItem="LoginVC-password" firstAttribute="leading" secondItem="LoginVC-card" secondAttribute="leading" constant="20" id="c6"/>
+                                    <constraint firstAttribute="trailing" secondItem="LoginVC-password" secondAttribute="trailing" constant="20" id="c7"/>
+                                    <constraint firstItem="LoginVC-password" firstAttribute="height" secondItem="LoginVC-email" secondAttribute="height" id="c8"/>
+                                    <constraint firstItem="LoginVC-error" firstAttribute="top" secondItem="LoginVC-password" secondAttribute="bottom" constant="10" id="c9"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="24"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                            <label contentMode="scaleToFill" text="Demo: any valid email + 6+ char password" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-hint">
+                                <rect key="frame" x="76.000000000000014" y="608.33333333333337" width="238.33333333333337" height="14.333333333333371"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.5" green="0.41999999999999998" blue="0.62" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label contentMode="scaleToFill" misplaced="YES" text="ANIMEX" textAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LoginVC-logo">
+                                <rect key="frame" x="103" y="227" width="170.66666666666663" height="50.333333333333314"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="42"/>
+                                <color key="textColor" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="E07-gA-PdQ"/>
+                        <color key="backgroundColor" name="ThemeBackground"/>
+                        <constraints>
+                            <constraint firstItem="LoginVC-logo" firstAttribute="centerX" secondItem="LoginVC-view" secondAttribute="centerX" id="lc1"/>
+                            <constraint firstItem="LoginVC-logo" firstAttribute="top" secondItem="E07-gA-PdQ" secondAttribute="top" constant="80" id="lc2"/>
+                            <constraint firstItem="LoginVC-tagline" firstAttribute="centerX" secondItem="LoginVC-view" secondAttribute="centerX" id="lc3"/>
+                            <constraint firstItem="LoginVC-tagline" firstAttribute="top" secondItem="LoginVC-logo" secondAttribute="bottom" constant="8" id="lc4"/>
+                            <constraint firstItem="LoginVC-card" firstAttribute="top" secondItem="LoginVC-tagline" secondAttribute="bottom" constant="48" id="lc5"/>
+                            <constraint firstItem="LoginVC-card" firstAttribute="leading" secondItem="LoginVC-view" secondAttribute="leading" constant="24" id="lc6"/>
+                            <constraint firstAttribute="trailing" secondItem="LoginVC-card" secondAttribute="trailing" constant="24" id="lc7"/>
+                            <constraint firstItem="LoginVC-hint" firstAttribute="centerX" secondItem="LoginVC-view" secondAttribute="centerX" id="lc8"/>
+                            <constraint firstItem="LoginVC-hint" firstAttribute="top" secondItem="LoginVC-card" secondAttribute="bottom" constant="20" id="lc9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="emailField" destination="LoginVC-email" id="o-email"/>
+                        <outlet property="errorLabel" destination="LoginVC-error" id="o-err"/>
+                        <outlet property="formCard" destination="LoginVC-card" id="o-card"/>
+                        <outlet property="hintLabel" destination="LoginVC-hint" id="o-hint"/>
+                        <outlet property="loadingIndicator" destination="LoginVC-spinner" id="o-spin"/>
+                        <outlet property="loginButton" destination="LoginVC-btn" id="o-btn"/>
+                        <outlet property="logoLabel" destination="LoginVC-logo" id="o-logo"/>
+                        <outlet property="passwordField" destination="LoginVC-password" id="o-pass"/>
+                        <outlet property="taglineLabel" destination="LoginVC-tagline" id="o-tagline"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-loginVC" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="200" y="-150"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="s-homeNav">
+            <objects>
+                <navigationController storyboardIdentifier="HomeNavigationController" id="HomeNav" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="HomeNav-bar">
+                        <rect key="frame" x="0.0" y="94" width="390" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="HomeVC" kind="relationship" relationship="rootViewController" id="seg-homeNav-root"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-homeNav" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-897" y="820"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="s-homeVC">
+            <objects>
+                <viewController storyboardIdentifier="HomeViewController" id="HomeVC" customClass="HomeViewController" customModule="AnimeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="HomeVC-view">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView contentMode="scaleToFill" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="HomeVC-table">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                                <color key="backgroundColor" name="ThemeBackground"/>
+                                <accessibility key="accessibilityConfiguration" identifier="home.tableView"/>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HomeVC-navbar">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="100"/>
+                                <subviews>
+                                    <label contentMode="scaleToFill" text="ANIMEX" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HomeVC-logo">
+                                        <rect key="frame" x="15.999999999999993" y="54.666666666666664" width="106.33333333333331" height="31.333333333333336"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="black" pointSize="26"/>
+                                        <color key="textColor" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HomeVC-search">
+                                        <rect key="frame" x="278" y="46" width="44" height="44"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="home.searchButton" label="Search"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="hn10"/>
+                                            <constraint firstAttribute="width" constant="44" id="hn9"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="magnifyingglass">
+                                            <color key="titleColor" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="searchTapped:" destination="HomeVC" eventType="touchUpInside" id="act-search"/>
+                                        </connections>
+                                    </button>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HomeVC-profile">
+                                        <rect key="frame" x="330" y="46" width="44" height="44"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="home.profileButton" label="Profile and menu"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="hn7"/>
+                                            <constraint firstAttribute="height" constant="44" id="hn8"/>
+                                        </constraints>
+                                        <color key="tintColor" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" image="person.circle.fill">
+                                            <color key="titleColor" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="profileTapped:" destination="HomeVC" eventType="touchUpInside" id="act-profile"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" name="ThemeSurface"/>
+                                <constraints>
+                                    <constraint firstItem="HomeVC-logo" firstAttribute="leading" secondItem="HomeVC-navbar" secondAttribute="leading" constant="16" id="hn1"/>
+                                    <constraint firstItem="HomeVC-logo" firstAttribute="bottom" secondItem="HomeVC-navbar" secondAttribute="bottom" constant="-14" id="hn2"/>
+                                    <constraint firstItem="HomeVC-profile" firstAttribute="trailing" secondItem="HomeVC-navbar" secondAttribute="trailing" constant="-16" id="hn3"/>
+                                    <constraint firstItem="HomeVC-profile" firstAttribute="bottom" secondItem="HomeVC-navbar" secondAttribute="bottom" constant="-10" id="hn4"/>
+                                    <constraint firstItem="HomeVC-search" firstAttribute="trailing" secondItem="HomeVC-profile" secondAttribute="leading" constant="-8" id="hn5"/>
+                                    <constraint firstItem="HomeVC-search" firstAttribute="centerY" secondItem="HomeVC-profile" secondAttribute="centerY" id="hn6"/>
+                                    <constraint firstAttribute="height" constant="100" id="hv8"/>
+                                </constraints>
+                            </view>
+                            <activityIndicatorView hidden="YES" contentMode="scaleToFill" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="HomeVC-spinner">
+                                <rect key="frame" x="176.66666666666666" y="403.66666666666669" width="37" height="37"/>
+                                <color key="color" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="9o7-7v-fOn"/>
+                        <color key="backgroundColor" name="ThemeBackground"/>
+                        <constraints>
+                            <constraint firstItem="HomeVC-table" firstAttribute="top" secondItem="HomeVC-view" secondAttribute="top" id="hv1"/>
+                            <constraint firstItem="HomeVC-spinner" firstAttribute="centerY" secondItem="HomeVC-view" secondAttribute="centerY" id="hv10"/>
+                            <constraint firstItem="HomeVC-table" firstAttribute="leading" secondItem="HomeVC-view" secondAttribute="leading" id="hv2"/>
+                            <constraint firstItem="HomeVC-table" firstAttribute="trailing" secondItem="HomeVC-view" secondAttribute="trailing" id="hv3"/>
+                            <constraint firstItem="HomeVC-table" firstAttribute="bottom" secondItem="HomeVC-view" secondAttribute="bottom" id="hv4"/>
+                            <constraint firstItem="HomeVC-navbar" firstAttribute="top" secondItem="HomeVC-view" secondAttribute="top" id="hv5"/>
+                            <constraint firstItem="HomeVC-navbar" firstAttribute="leading" secondItem="HomeVC-view" secondAttribute="leading" id="hv6"/>
+                            <constraint firstItem="HomeVC-navbar" firstAttribute="trailing" secondItem="HomeVC-view" secondAttribute="trailing" id="hv7"/>
+                            <constraint firstItem="HomeVC-spinner" firstAttribute="centerX" secondItem="HomeVC-view" secondAttribute="centerX" id="hv9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="loadingIndicator" destination="HomeVC-spinner" id="o-homeSpin"/>
+                        <outlet property="logoLabel" destination="HomeVC-logo" id="o-homelogo"/>
+                        <outlet property="navBarView" destination="HomeVC-navbar" id="o-navbar"/>
+                        <outlet property="profileButton" destination="HomeVC-profile" id="o-profileBtn"/>
+                        <outlet property="searchButton" destination="HomeVC-search" id="o-searchBtn"/>
+                        <outlet property="tableView" destination="HomeVC-table" id="o-table"/>
+                        <segue destination="DetailVC" kind="show" identifier="showDetail" id="seg-showDetail"/>
+                        <segue destination="DemoNav" kind="push" identifier="showDemo" id="seg-showDemo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-homeVC" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-97" y="820"/>
+        </scene>
+        <!--Anime Detail View Controller-->
+        <scene sceneID="s-detailVC">
+            <objects>
+                <viewController storyboardIdentifier="AnimeDetailViewController" id="DetailVC" customClass="AnimeDetailViewController" customModule="AnimeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DetailVC-view">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-scroll">
+                                <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                                <subviews>
+                                    <imageView contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-hero">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="380"/>
+                                        <color key="backgroundColor" red="0.93999999999999995" green="0.91000000000000003" blue="0.97999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="detail.heroImage" label="Cover art"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="380" id="hero-h"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label contentMode="scaleToFill" lineBreakMode="tailTruncation" numberOfLines="3" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-title">
+                                        <rect key="frame" x="20" y="400" width="350" height="0.0"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
+                                        <color key="textColor" red="0.22" green="0.14999999999999999" blue="0.34999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label contentMode="scaleToFill" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-score">
+                                        <rect key="frame" x="20" y="408" width="0.0" height="0.0"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <color key="textColor" red="0.94999999999999996" green="0.68000000000000005" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label contentMode="scaleToFill" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-meta">
+                                        <rect key="frame" x="32" y="408" width="0.0" height="0.0"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <color key="textColor" red="0.5" green="0.41999999999999998" blue="0.62" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label contentMode="scaleToFill" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-genre">
+                                        <rect key="frame" x="20" y="414" width="0.0" height="0.0"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="12"/>
+                                        <color key="textColor" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-watch">
+                                        <rect key="frame" x="20" y="430" width="350" height="50"/>
+                                        <color key="backgroundColor" red="0.91000000000000003" green="0.5" blue="0.63" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <accessibility key="accessibilityConfiguration" identifier="detail.watchButton" label="Watch now"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="watch-h"/>
+                                        </constraints>
+                                        <state key="normal" title="Watch Now">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="16"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="watchTapped:" destination="DetailVC" eventType="touchUpInside" id="act-watch"/>
+                                        </connections>
+                                    </button>
+                                    <label contentMode="scaleToFill" text="Synopsis" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-synTitle">
+                                        <rect key="frame" x="20" y="503.99999999999994" width="72.666666666666671" height="20.333333333333314"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <color key="textColor" red="0.22" green="0.14999999999999999" blue="0.34999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label contentMode="scaleToFill" lineBreakMode="wordWrap" numberOfLines="0" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-synopsis">
+                                        <rect key="frame" x="20" y="534.33333333333337" width="350" height="0.0"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.22" green="0.14999999999999999" blue="0.34999999999999998" alpha="0.84999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label contentMode="scaleToFill" text="Characters" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-charsTitle">
+                                        <rect key="frame" x="20" y="558.33333333333337" width="88" height="20.333333333333371"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <color key="textColor" red="0.22" green="0.14999999999999999" blue="0.34999999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <collectionView contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-chars">
+                                        <rect key="frame" x="0.0" y="590.66666666666663" width="390" height="130"/>
+                                        <color key="backgroundColor" name="ThemeBackground"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="130" id="chars-h"/>
+                                        </constraints>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="DetailVC-charsLayout">
+                                            <size key="itemSize" width="80" height="110"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="20" minY="0.0" maxX="20" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                    </collectionView>
+                                </subviews>
+                                <color key="backgroundColor" name="ThemeBackground"/>
+                                <constraints>
+                                    <constraint firstItem="DetailVC-hero" firstAttribute="top" secondItem="DetailVC-scroll" secondAttribute="top" id="d1"/>
+                                    <constraint firstItem="DetailVC-meta" firstAttribute="centerY" secondItem="DetailVC-score" secondAttribute="centerY" id="d10"/>
+                                    <constraint firstItem="DetailVC-meta" firstAttribute="leading" secondItem="DetailVC-score" secondAttribute="trailing" constant="12" id="d11"/>
+                                    <constraint firstItem="DetailVC-genre" firstAttribute="top" secondItem="DetailVC-score" secondAttribute="bottom" constant="6" id="d12"/>
+                                    <constraint firstItem="DetailVC-genre" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" constant="20" id="d13"/>
+                                    <constraint firstItem="DetailVC-watch" firstAttribute="top" secondItem="DetailVC-genre" secondAttribute="bottom" constant="16" id="d14"/>
+                                    <constraint firstItem="DetailVC-watch" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" constant="20" id="d15"/>
+                                    <constraint firstAttribute="trailing" secondItem="DetailVC-watch" secondAttribute="trailing" constant="20" id="d16"/>
+                                    <constraint firstItem="DetailVC-synTitle" firstAttribute="top" secondItem="DetailVC-watch" secondAttribute="bottom" constant="24" id="d17"/>
+                                    <constraint firstItem="DetailVC-synTitle" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" constant="20" id="d18"/>
+                                    <constraint firstItem="DetailVC-synopsis" firstAttribute="top" secondItem="DetailVC-synTitle" secondAttribute="bottom" constant="10" id="d19"/>
+                                    <constraint firstItem="DetailVC-hero" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" id="d2"/>
+                                    <constraint firstItem="DetailVC-synopsis" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" constant="20" id="d20"/>
+                                    <constraint firstAttribute="trailing" secondItem="DetailVC-synopsis" secondAttribute="trailing" constant="20" id="d21"/>
+                                    <constraint firstItem="DetailVC-charsTitle" firstAttribute="top" secondItem="DetailVC-synopsis" secondAttribute="bottom" constant="24" id="d22"/>
+                                    <constraint firstItem="DetailVC-charsTitle" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" constant="20" id="d23"/>
+                                    <constraint firstItem="DetailVC-chars" firstAttribute="top" secondItem="DetailVC-charsTitle" secondAttribute="bottom" constant="12" id="d24"/>
+                                    <constraint firstItem="DetailVC-chars" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" id="d25"/>
+                                    <constraint firstItem="DetailVC-chars" firstAttribute="trailing" secondItem="DetailVC-scroll" secondAttribute="trailing" id="d26"/>
+                                    <constraint firstAttribute="bottom" secondItem="DetailVC-chars" secondAttribute="bottom" constant="40" id="d27"/>
+                                    <constraint firstItem="DetailVC-hero" firstAttribute="trailing" secondItem="DetailVC-scroll" secondAttribute="trailing" id="d3"/>
+                                    <constraint firstItem="DetailVC-hero" firstAttribute="width" secondItem="DetailVC-scroll" secondAttribute="width" id="d4"/>
+                                    <constraint firstItem="DetailVC-title" firstAttribute="top" secondItem="DetailVC-hero" secondAttribute="bottom" constant="20" id="d5"/>
+                                    <constraint firstItem="DetailVC-title" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" constant="20" id="d6"/>
+                                    <constraint firstAttribute="trailing" secondItem="DetailVC-title" secondAttribute="trailing" constant="20" id="d7"/>
+                                    <constraint firstItem="DetailVC-score" firstAttribute="top" secondItem="DetailVC-title" secondAttribute="bottom" constant="8" id="d8"/>
+                                    <constraint firstItem="DetailVC-score" firstAttribute="leading" secondItem="DetailVC-scroll" secondAttribute="leading" constant="20" id="d9"/>
+                                </constraints>
+                            </scrollView>
+                            <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-back">
+                                <rect key="frame" x="8" y="156" width="44" height="44"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.55000000000000004" colorSpace="calibratedWhite"/>
+                                <accessibility key="accessibilityConfiguration" identifier="detail.backButton" label="Back"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="44" id="dv7"/>
+                                    <constraint firstAttribute="height" constant="44" id="dv8"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal" image="chevron.left">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <real key="value" value="22"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="NO"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="backTapped:" destination="DetailVC" eventType="touchUpInside" id="act-back"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView hidden="YES" contentMode="scaleToFill" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="DetailVC-spinner">
+                                <rect key="frame" x="350" y="164" width="20" height="20"/>
+                                <color key="color" red="0.55000000000000004" green="0.38" blue="0.81999999999999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="iyD-bU-H13"/>
+                        <color key="backgroundColor" name="ThemeBackground"/>
+                        <constraints>
+                            <constraint firstItem="DetailVC-scroll" firstAttribute="top" secondItem="DetailVC-view" secondAttribute="top" id="dv1"/>
+                            <constraint firstItem="DetailVC-spinner" firstAttribute="top" secondItem="iyD-bU-H13" secondAttribute="top" constant="16" id="dv10"/>
+                            <constraint firstItem="DetailVC-scroll" firstAttribute="leading" secondItem="DetailVC-view" secondAttribute="leading" id="dv2"/>
+                            <constraint firstItem="DetailVC-scroll" firstAttribute="trailing" secondItem="DetailVC-view" secondAttribute="trailing" id="dv3"/>
+                            <constraint firstItem="DetailVC-scroll" firstAttribute="bottom" secondItem="DetailVC-view" secondAttribute="bottom" id="dv4"/>
+                            <constraint firstItem="DetailVC-back" firstAttribute="leading" secondItem="DetailVC-view" secondAttribute="leading" constant="8" id="dv5"/>
+                            <constraint firstItem="DetailVC-back" firstAttribute="top" secondItem="iyD-bU-H13" secondAttribute="top" constant="8" id="dv6"/>
+                            <constraint firstItem="DetailVC-spinner" firstAttribute="trailing" secondItem="DetailVC-view" secondAttribute="trailing" constant="-20" id="dv9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backButton" destination="DetailVC-back" id="o-backBtn"/>
+                        <outlet property="synTitleLabel" destination="DetailVC-synTitle" id="o-synTitle"/>
+                        <outlet property="charsCollectionView" destination="DetailVC-chars" id="o-chars"/>
+                        <outlet property="charsTitleLabel" destination="DetailVC-charsTitle" id="o-charsTitle"/>
+                        <outlet property="genreLabel" destination="DetailVC-genre" id="o-genre"/>
+                        <outlet property="heroImageView" destination="DetailVC-hero" id="o-hero"/>
+                        <outlet property="loadingIndicator" destination="DetailVC-spinner" id="o-dSpin"/>
+                        <outlet property="metaLabel" destination="DetailVC-meta" id="o-meta"/>
+                        <outlet property="scoreLabel" destination="DetailVC-score" id="o-score"/>
+                        <outlet property="scrollView" destination="DetailVC-scroll" id="o-scroll"/>
+                        <outlet property="synopsisLabel" destination="DetailVC-synopsis" id="o-synopsis"/>
+                        <outlet property="titleLabel" destination="DetailVC-title" id="o-dtitle"/>
+                        <outlet property="watchButton" destination="DetailVC-watch" id="o-watch"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-detailVC" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="700" y="820"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="s-demoNav">
+            <objects>
+                <navigationController storyboardIdentifier="AnimationDemoNavigationController" id="DemoNav" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DemoNav-bar">
+                        <rect key="frame" x="0.0" y="94" width="390" height="54"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="DemoVC" kind="relationship" relationship="rootViewController" id="seg-demoNav-root"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-demoNav" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-260" y="1800"/>
+        </scene>
+        <!--Animation Demo View Controller-->
+        <scene sceneID="s-demoVC">
+            <objects>
+                <viewController storyboardIdentifier="AnimationDemoViewController" id="DemoVC" customClass="AnimationDemoViewController" customModule="AnimeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DemoVC-view">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="gVc-xl-tTy"/>
+                        <color key="backgroundColor" name="ThemeBackground"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-demoVC" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="442" y="1800"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="chevron.left" width="128" height="128"/>
+        <image name="magnifyingglass" width="128" height="128"/>
+        <image name="person.circle.fill" width="128" height="128"/>
+        <image name="sparkles" width="128" height="128"/>
+        <namedColor name="ThemeBackground">
+            <color red="0.97" green="0.96" blue="1.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="ThemeSurface">
+            <color red="1.0" green="1.0" blue="1.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

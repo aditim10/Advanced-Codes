@@ -1,0 +1,28 @@
+{
+  "data": {
+    "mal_id": 1535,
+    "title": "Death Note",
+    "title_english": "Death Note",
+    "synopsis": "A high school student discovers a notebook that kills anyone whose name is written in it.",
+    "score": 8.6,
+    "episodes": 37,
+    "status": "Finished Airing",
+    "year": 2006,
+    "images": {
+      "jpg": {
+        "image_url": "https://cdn.myanimelist.net/images/anime/9/9453.jpg",
+        "small_image_url": "https://cdn.myanimelist.net/images/anime/9/9453t.jpg",
+        "large_image_url": "https://cdn.myanimelist.net/images/anime/9/9453l.jpg"
+      }
+    },
+    "genres": [
+      { "mal_id": 37, "name": "Supernatural", "count": 2800 },
+      { "mal_id": 41, "name": "Suspense", "count": 1900 }
+    ],
+    "trailer": {
+      "youtube_id": null,
+      "url": null,
+      "embed_url": "https://www.youtube-nocookie.com/embed/Vt_3c8BgxV4?enablejsapi=1&wmode=opaque&autoplay=1"
+    }
+  }
+}
