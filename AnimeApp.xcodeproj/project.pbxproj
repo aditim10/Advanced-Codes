@@ -1,0 +1,958 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D20001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10001 /* AppDelegate.swift */; };
+		D20002 /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10002 /* AnalyticsEvent.swift */; };
+		D20003 /* AnalyticsEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10003 /* AnalyticsEvents.swift */; };
+		D20004 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10004 /* AnalyticsManager.swift */; };
+		D20005 /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10005 /* AnalyticsProvider.swift */; };
+		D20006 /* AmexPanelAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10006 /* AmexPanelAnalyticsProvider.swift */; };
+		D20007 /* ConsoleAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10007 /* ConsoleAnalyticsProvider.swift */; };
+		D20008 /* FirebaseAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10008 /* FirebaseAnalyticsProvider.swift */; };
+		D20009 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10009 /* APIConstants.swift */; };
+		D20010 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10010 /* AppConstants.swift */; };
+		D20011 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10011 /* ImageLoader.swift */; };
+		D20012 /* AppStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10012 /* AppStrings.swift */; };
+		D20013 /* AnimeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10013 /* AnimeModels.swift */; };
+		PKG0001 /* ConcurrentAPI in Frameworks */ = {isa = PBXBuildFile; productRef = PKG0002 /* ConcurrentAPI */; };
+		PKG0011 /* PlayerSDK in Frameworks */ = {isa = PBXBuildFile; productRef = PKG0012 /* PlayerSDK */; };
+		D20021 /* JikanResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10021 /* JikanResponses.swift */; };
+		D20022 /* AnimeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10022 /* AnimeRequests.swift */; };
+		D20023 /* AnimeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10023 /* AnimeAPI.swift */; };
+		D20024 /* AnimeDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10024 /* AnimeDetailService.swift */; };
+		D20025 /* AnimePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10025 /* AnimePage.swift */; };
+		D20026 /* AnimeSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10026 /* AnimeSearchService.swift */; };
+		D20027 /* FeaturedAnimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10027 /* FeaturedAnimeService.swift */; };
+		D20028 /* GenreAnimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10028 /* GenreAnimeService.swift */; };
+		D20029 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10029 /* ThemeManager.swift */; };
+		DMOD2 /* DetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = DMOD1 /* DetailModels.swift */; };
+		DINT2 /* DetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DINT1 /* DetailInteractor.swift */; };
+		DPRE2 /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DPRE1 /* DetailPresenter.swift */; };
+		DROU2 /* DetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DROU1 /* DetailRouter.swift */; };
+		SRB1 /* SearchModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = SRF1 /* SearchModels.swift */; };
+		SRB2 /* SearchInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = SRF2 /* SearchInteractor.swift */; };
+		SRB3 /* SearchPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = SRF3 /* SearchPresenter.swift */; };
+		SRB4 /* SearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = SRF4 /* SearchRouter.swift */; };
+		SRB5 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = SRF5 /* SearchViewController.swift */; };
+		SAB1 /* SeeAllModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = SAF1 /* SeeAllModels.swift */; };
+		SAB2 /* SeeAllInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = SAF2 /* SeeAllInteractor.swift */; };
+		SAB3 /* SeeAllPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = SAF3 /* SeeAllPresenter.swift */; };
+		SAB4 /* SeeAllRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = SAF4 /* SeeAllRouter.swift */; };
+		SAB5 /* SeeAllViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = SAF5 /* SeeAllViewController.swift */; };
+		HMOD2 /* HomeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = HMOD1 /* HomeModels.swift */; };
+		HINT2 /* HomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = HINT1 /* HomeInteractor.swift */; };
+		HPRE2 /* HomePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = HPRE1 /* HomePresenter.swift */; };
+		HROU2 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = HROU1 /* HomeRouter.swift */; };
+		HVIE2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = HVIE1 /* HomeViewController.swift */; };
+		LMOD2 /* LoginModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = LMOD1 /* LoginModels.swift */; };
+		LINT2 /* LoginInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = LINT1 /* LoginInteractor.swift */; };
+		LPRE2 /* LoginPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = LPRE1 /* LoginPresenter.swift */; };
+		LROU2 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = LROU1 /* LoginRouter.swift */; };
+		LVIE2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = LVIE1 /* LoginViewController.swift */; };
+		DVIE2 /* AnimeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DVIE1 /* AnimeDetailViewController.swift */; };
+		D20039 /* AnimationDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10039 /* AnimationDemoViewController.swift */; };
+		D20040 /* SharedCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10040 /* SharedCells.swift */; };
+		D20041 /* CharacterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10041 /* CharacterService.swift */; };
+		CDB1 /* CharacterDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF1 /* CharacterDetailModels.swift */; };
+		CDB2 /* CharacterDetailInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF2 /* CharacterDetailInteractor.swift */; };
+		CDB3 /* CharacterDetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF3 /* CharacterDetailPresenter.swift */; };
+		CDB4 /* CharacterDetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF4 /* CharacterDetailRouter.swift */; };
+		CDB5 /* CharacterDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF5 /* CharacterDetailViewController.swift */; };
+		D2R001 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1R001 /* Main.storyboard */; };
+		D2R002 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D1R002 /* LaunchScreen.storyboard */; };
+		D2R003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D1R003 /* Assets.xcassets */; };
+		D2R004 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D1V001 /* Localizable.strings */; };
+		T20001 /* TestSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10001 /* TestSupport.swift */; };
+		T20002 /* AnalyticsManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10002 /* AnalyticsManagerTests.swift */; };
+		T20003 /* HomeInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10003 /* HomeInteractorTests.swift */; };
+		T20004 /* SearchInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10004 /* SearchInteractorTests.swift */; };
+		T20005 /* SeeAllInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10005 /* SeeAllInteractorTests.swift */; };
+		T20006 /* LoginInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10006 /* LoginInteractorTests.swift */; };
+		T20007 /* DetailInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10007 /* DetailInteractorTests.swift */; };
+		T20008 /* HomePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10008 /* HomePresenterTests.swift */; };
+		T20009 /* DetailPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10009 /* DetailPresenterTests.swift */; };
+		T20010 /* SearchPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10010 /* SearchPresenterTests.swift */; };
+		T20011 /* SeeAllPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10011 /* SeeAllPresenterTests.swift */; };
+		T20012 /* LoginPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10012 /* LoginPresenterTests.swift */; };
+		T20013 /* JSONFixtureDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = T10013 /* JSONFixtureDecodingTests.swift */; };
+		TR20001 /* top_anime.json in Resources */ = {isa = PBXBuildFile; fileRef = TR10001 /* top_anime.json */; };
+		TR20002 /* anime_by_genre.json in Resources */ = {isa = PBXBuildFile; fileRef = TR10002 /* anime_by_genre.json */; };
+		TR20003 /* anime_detail.json in Resources */ = {isa = PBXBuildFile; fileRef = TR10003 /* anime_detail.json */; };
+		TR20004 /* anime_characters.json in Resources */ = {isa = PBXBuildFile; fileRef = TR10004 /* anime_characters.json */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		TP0000 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF000000 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AE000000;
+			remoteInfo = AnimeApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AB000000 /* AnimeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB000014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D10001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D10002 /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
+		D10003 /* AnalyticsEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvents.swift; sourceTree = "<group>"; };
+		D10004 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
+		D10005 /* AnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsProvider.swift; sourceTree = "<group>"; };
+		D10006 /* AmexPanelAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmexPanelAnalyticsProvider.swift; sourceTree = "<group>"; };
+		D10007 /* ConsoleAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleAnalyticsProvider.swift; sourceTree = "<group>"; };
+		D10008 /* FirebaseAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsProvider.swift; sourceTree = "<group>"; };
+		D10009 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
+		D10010 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		D10011 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		D10012 /* AppStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStrings.swift; sourceTree = "<group>"; };
+		D10013 /* AnimeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeModels.swift; sourceTree = "<group>"; };
+		D10021 /* JikanResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanResponses.swift; sourceTree = "<group>"; };
+		D10022 /* AnimeRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeRequests.swift; sourceTree = "<group>"; };
+		D10023 /* AnimeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeAPI.swift; sourceTree = "<group>"; };
+		D10024 /* AnimeDetailService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailService.swift; sourceTree = "<group>"; };
+		D10025 /* AnimePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimePage.swift; sourceTree = "<group>"; };
+		D10026 /* AnimeSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeSearchService.swift; sourceTree = "<group>"; };
+		D10027 /* FeaturedAnimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturedAnimeService.swift; sourceTree = "<group>"; };
+		D10028 /* GenreAnimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreAnimeService.swift; sourceTree = "<group>"; };
+		D10029 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
+		DMOD1 /* DetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModels.swift; sourceTree = "<group>"; };
+		DINT1 /* DetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractor.swift; sourceTree = "<group>"; };
+		DPRE1 /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
+		DROU1 /* DetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouter.swift; sourceTree = "<group>"; };
+		DVIE1 /* AnimeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailViewController.swift; sourceTree = "<group>"; };
+		LMOD1 /* LoginModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
+		LINT1 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
+		LPRE1 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
+		LROU1 /* LoginRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRouter.swift; sourceTree = "<group>"; };
+		LVIE1 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		SRF1 /* SearchModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModels.swift; sourceTree = "<group>"; };
+		SRF2 /* SearchInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractor.swift; sourceTree = "<group>"; };
+		SRF3 /* SearchPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenter.swift; sourceTree = "<group>"; };
+		SRF4 /* SearchRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchRouter.swift; sourceTree = "<group>"; };
+		SRF5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		SAF1 /* SeeAllModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllModels.swift; sourceTree = "<group>"; };
+		SAF2 /* SeeAllInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllInteractor.swift; sourceTree = "<group>"; };
+		SAF3 /* SeeAllPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllPresenter.swift; sourceTree = "<group>"; };
+		SAF4 /* SeeAllRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllRouter.swift; sourceTree = "<group>"; };
+		SAF5 /* SeeAllViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllViewController.swift; sourceTree = "<group>"; };
+		HMOD1 /* HomeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeModels.swift; sourceTree = "<group>"; };
+		HINT1 /* HomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractor.swift; sourceTree = "<group>"; };
+		HPRE1 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
+		HROU1 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		HVIE1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		D10039 /* AnimationDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationDemoViewController.swift; sourceTree = "<group>"; };
+		D10040 /* SharedCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedCells.swift; sourceTree = "<group>"; };
+		D10041 /* CharacterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterService.swift; sourceTree = "<group>"; };
+		CDF1 /* CharacterDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailModels.swift; sourceTree = "<group>"; };
+		CDF2 /* CharacterDetailInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailInteractor.swift; sourceTree = "<group>"; };
+		CDF3 /* CharacterDetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailPresenter.swift; sourceTree = "<group>"; };
+		CDF4 /* CharacterDetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailRouter.swift; sourceTree = "<group>"; };
+		CDF5 /* CharacterDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailViewController.swift; sourceTree = "<group>"; };
+		D1L001 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D1R001 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		D1R002 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D1R003 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		T10001 /* TestSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestSupport.swift; sourceTree = "<group>"; };
+		T10002 /* AnalyticsManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManagerTests.swift; sourceTree = "<group>"; };
+		T10003 /* HomeInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInteractorTests.swift; sourceTree = "<group>"; };
+		T10004 /* SearchInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInteractorTests.swift; sourceTree = "<group>"; };
+		T10005 /* SeeAllInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllInteractorTests.swift; sourceTree = "<group>"; };
+		T10006 /* LoginInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractorTests.swift; sourceTree = "<group>"; };
+		T10007 /* DetailInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInteractorTests.swift; sourceTree = "<group>"; };
+		T10008 /* HomePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenterTests.swift; sourceTree = "<group>"; };
+		T10009 /* DetailPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenterTests.swift; sourceTree = "<group>"; };
+		T10010 /* SearchPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPresenterTests.swift; sourceTree = "<group>"; };
+		T10011 /* SeeAllPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllPresenterTests.swift; sourceTree = "<group>"; };
+		T10012 /* LoginPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenterTests.swift; sourceTree = "<group>"; };
+		T10013 /* JSONFixtureDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONFixtureDecodingTests.swift; sourceTree = "<group>"; };
+		TR10001 /* top_anime.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = top_anime.json; sourceTree = "<group>"; };
+		TR10002 /* anime_by_genre.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = anime_by_genre.json; sourceTree = "<group>"; };
+		TR10003 /* anime_detail.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = anime_detail.json; sourceTree = "<group>"; };
+		TR10004 /* anime_characters.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = anime_characters.json; sourceTree = "<group>"; };
+		TB00000 /* AnimeAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AnimeAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AE000002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				PKG0001 /* ConcurrentAPI in Frameworks */,
+				PKG0011 /* PlayerSDK in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		TE0002 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AC000000 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AB000000 /* AnimeApp.app */,
+				TB00000 /* AnimeAppTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AC000001 /* AnimeApp */ = {
+			isa = PBXGroup;
+			children = (
+				D10001 /* AppDelegate.swift */,
+				G30001 /* Analytics */,
+				G30002 /* Constants */,
+				G30003 /* Helpers */,
+				G30004 /* Models */,
+				G30005 /* Networking */,
+				G30006 /* Services */,
+				G30007 /* Theme */,
+				G40000 /* Modules */,
+				G30009 /* Views */,
+				G30010 /* Resources */,
+				AB000014 /* Info.plist */,
+			);
+			path = AnimeApp;
+			sourceTree = "<group>";
+		};
+		AD000000 = {
+			isa = PBXGroup;
+			children = (
+				AC000001 /* AnimeApp */,
+				TG0001 /* AnimeAppTests */,
+				AC000000 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		G30001 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				D10002 /* AnalyticsEvent.swift */,
+				D10003 /* AnalyticsEvents.swift */,
+				D10004 /* AnalyticsManager.swift */,
+				D10005 /* AnalyticsProvider.swift */,
+				G30011 /* Providers */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		G30002 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				D10009 /* APIConstants.swift */,
+				D10010 /* AppConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		G30003 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D10011 /* ImageLoader.swift */,
+				G30012 /* Localization */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		G30004 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D10013 /* AnimeModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		G30005 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				G30014 /* Raw */,
+				G30015 /* Requests */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		G30006 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D10023 /* AnimeAPI.swift */,
+				D10024 /* AnimeDetailService.swift */,
+				D10041 /* CharacterService.swift */,
+				D10025 /* AnimePage.swift */,
+				D10026 /* AnimeSearchService.swift */,
+				D10027 /* FeaturedAnimeService.swift */,
+				D10028 /* GenreAnimeService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		G30007 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				D10029 /* ThemeManager.swift */,
+			);
+			path = Theme;
+			sourceTree = "<group>";
+		};
+		G40000 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				G40001 /* Home */,
+				G40002 /* Login */,
+				G40003 /* Detail */,
+				G40004 /* Search */,
+				G40005 /* SeeAll */,
+				G40006 /* CharacterDetail */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		G40001 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				HMOD1 /* HomeModels.swift */,
+				HINT1 /* HomeInteractor.swift */,
+				HPRE1 /* HomePresenter.swift */,
+				HROU1 /* HomeRouter.swift */,
+				HVIE1 /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		G40002 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				LMOD1 /* LoginModels.swift */,
+				LINT1 /* LoginInteractor.swift */,
+				LPRE1 /* LoginPresenter.swift */,
+				LROU1 /* LoginRouter.swift */,
+				LVIE1 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		G40003 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				DMOD1 /* DetailModels.swift */,
+				DINT1 /* DetailInteractor.swift */,
+				DPRE1 /* DetailPresenter.swift */,
+				DROU1 /* DetailRouter.swift */,
+				DVIE1 /* AnimeDetailViewController.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		G40004 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				SRF1 /* SearchModels.swift */,
+				SRF2 /* SearchInteractor.swift */,
+				SRF3 /* SearchPresenter.swift */,
+				SRF4 /* SearchRouter.swift */,
+				SRF5 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		G40005 /* SeeAll */ = {
+			isa = PBXGroup;
+			children = (
+				SAF1 /* SeeAllModels.swift */,
+				SAF2 /* SeeAllInteractor.swift */,
+				SAF3 /* SeeAllPresenter.swift */,
+				SAF4 /* SeeAllRouter.swift */,
+				SAF5 /* SeeAllViewController.swift */,
+			);
+			path = SeeAll;
+			sourceTree = "<group>";
+		};
+		G40006 /* CharacterDetail */ = {
+			isa = PBXGroup;
+			children = (
+				CDF1 /* CharacterDetailModels.swift */,
+				CDF2 /* CharacterDetailInteractor.swift */,
+				CDF3 /* CharacterDetailPresenter.swift */,
+				CDF4 /* CharacterDetailRouter.swift */,
+				CDF5 /* CharacterDetailViewController.swift */,
+			);
+			path = CharacterDetail;
+			sourceTree = "<group>";
+		};
+		G30009 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D10039 /* AnimationDemoViewController.swift */,
+				G30016 /* Cells */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		G30010 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D1R001 /* Main.storyboard */,
+				D1R002 /* LaunchScreen.storyboard */,
+				D1R003 /* Assets.xcassets */,
+				D1V001 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		G30011 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				D10006 /* AmexPanelAnalyticsProvider.swift */,
+				D10007 /* ConsoleAnalyticsProvider.swift */,
+				D10008 /* FirebaseAnalyticsProvider.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		G30012 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				D10012 /* AppStrings.swift */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		G30014 /* Raw */ = {
+			isa = PBXGroup;
+			children = (
+				D10021 /* JikanResponses.swift */,
+			);
+			path = Raw;
+			sourceTree = "<group>";
+		};
+		G30015 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				D10022 /* AnimeRequests.swift */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		G30016 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				D10040 /* SharedCells.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		TG0001 /* AnimeAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				T10001 /* TestSupport.swift */,
+				T10002 /* AnalyticsManagerTests.swift */,
+				T10003 /* HomeInteractorTests.swift */,
+				T10004 /* SearchInteractorTests.swift */,
+				T10005 /* SeeAllInteractorTests.swift */,
+				T10006 /* LoginInteractorTests.swift */,
+				T10007 /* DetailInteractorTests.swift */,
+				T10008 /* HomePresenterTests.swift */,
+				T10009 /* DetailPresenterTests.swift */,
+				T10010 /* SearchPresenterTests.swift */,
+				T10011 /* SeeAllPresenterTests.swift */,
+				T10012 /* LoginPresenterTests.swift */,
+				T10013 /* JSONFixtureDecodingTests.swift */,
+				TGF001 /* Fixtures */,
+			);
+			path = AnimeAppTests;
+			sourceTree = "<group>";
+		};
+		TGF001 /* Fixtures */ = {
+			isa = PBXGroup;
+			children = (
+				TR10001 /* top_anime.json */,
+				TR10002 /* anime_by_genre.json */,
+				TR10003 /* anime_detail.json */,
+				TR10004 /* anime_characters.json */,
+			);
+			path = Fixtures;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AE000000 /* AnimeApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF000002 /* Build configuration list for PBXNativeTarget "AnimeApp" */;
+			buildPhases = (
+				AE000001 /* Sources */,
+				AE000002 /* Frameworks */,
+				AE000003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AnimeApp;
+			packageProductDependencies = (
+				PKG0002 /* ConcurrentAPI */,
+				PKG0012 /* PlayerSDK */,
+			);
+			productName = AnimeApp;
+			productReference = AB000000 /* AnimeApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		TE0000 /* AnimeAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = TF0002 /* Build configuration list for PBXNativeTarget "AnimeAppTests" */;
+			buildPhases = (
+				TE0001 /* Sources */,
+				TE0002 /* Frameworks */,
+				TE0003 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				TD0000 /* PBXTargetDependency */,
+			);
+			name = AnimeAppTests;
+			productName = AnimeAppTests;
+			productReference = TB00000 /* AnimeAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AF000000 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 2650;
+				TargetAttributes = {
+					AE000000 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					TE0000 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = AE000000;
+					};
+				};
+			};
+			buildConfigurationList = AF000001 /* Build configuration list for PBXProject "AnimeApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AD000000;
+			packageReferences = (
+				3F10CFB12FD81CFB00BFC5A0 /* XCRemoteSwiftPackageReference "Advanced-Codes" */,
+				PKGL010 /* XCLocalSwiftPackageReference "PlayerSDK" */,
+			);
+			productRefGroup = AC000000 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AE000000 /* AnimeApp */,
+				TE0000 /* AnimeAppTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AE000003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2R001 /* Main.storyboard in Resources */,
+				D2R002 /* LaunchScreen.storyboard in Resources */,
+				D2R003 /* Assets.xcassets in Resources */,
+				D2R004 /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		TE0003 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				TR20001 /* top_anime.json in Resources */,
+				TR20002 /* anime_by_genre.json in Resources */,
+				TR20003 /* anime_detail.json in Resources */,
+				TR20004 /* anime_characters.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AE000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D20001 /* AppDelegate.swift in Sources */,
+				D20002 /* AnalyticsEvent.swift in Sources */,
+				D20003 /* AnalyticsEvents.swift in Sources */,
+				D20004 /* AnalyticsManager.swift in Sources */,
+				D20005 /* AnalyticsProvider.swift in Sources */,
+				D20006 /* AmexPanelAnalyticsProvider.swift in Sources */,
+				D20007 /* ConsoleAnalyticsProvider.swift in Sources */,
+				D20008 /* FirebaseAnalyticsProvider.swift in Sources */,
+				D20009 /* APIConstants.swift in Sources */,
+				D20010 /* AppConstants.swift in Sources */,
+				D20011 /* ImageLoader.swift in Sources */,
+				D20012 /* AppStrings.swift in Sources */,
+				D20013 /* AnimeModels.swift in Sources */,
+				D20021 /* JikanResponses.swift in Sources */,
+				D20022 /* AnimeRequests.swift in Sources */,
+				D20023 /* AnimeAPI.swift in Sources */,
+				D20024 /* AnimeDetailService.swift in Sources */,
+				D20041 /* CharacterService.swift in Sources */,
+				D20025 /* AnimePage.swift in Sources */,
+				D20026 /* AnimeSearchService.swift in Sources */,
+				D20027 /* FeaturedAnimeService.swift in Sources */,
+				D20028 /* GenreAnimeService.swift in Sources */,
+				D20029 /* ThemeManager.swift in Sources */,
+				DMOD2 /* DetailModels.swift in Sources */,
+				DINT2 /* DetailInteractor.swift in Sources */,
+				DPRE2 /* DetailPresenter.swift in Sources */,
+				DROU2 /* DetailRouter.swift in Sources */,
+				DVIE2 /* AnimeDetailViewController.swift in Sources */,
+				CDB1 /* CharacterDetailModels.swift in Sources */,
+				CDB2 /* CharacterDetailInteractor.swift in Sources */,
+				CDB3 /* CharacterDetailPresenter.swift in Sources */,
+				CDB4 /* CharacterDetailRouter.swift in Sources */,
+				CDB5 /* CharacterDetailViewController.swift in Sources */,
+				SRB1 /* SearchModels.swift in Sources */,
+				SRB2 /* SearchInteractor.swift in Sources */,
+				SRB3 /* SearchPresenter.swift in Sources */,
+				SRB4 /* SearchRouter.swift in Sources */,
+				SRB5 /* SearchViewController.swift in Sources */,
+				SAB1 /* SeeAllModels.swift in Sources */,
+				SAB2 /* SeeAllInteractor.swift in Sources */,
+				SAB3 /* SeeAllPresenter.swift in Sources */,
+				SAB4 /* SeeAllRouter.swift in Sources */,
+				SAB5 /* SeeAllViewController.swift in Sources */,
+				HMOD2 /* HomeModels.swift in Sources */,
+				HINT2 /* HomeInteractor.swift in Sources */,
+				HPRE2 /* HomePresenter.swift in Sources */,
+				HROU2 /* HomeRouter.swift in Sources */,
+				HVIE2 /* HomeViewController.swift in Sources */,
+				LMOD2 /* LoginModels.swift in Sources */,
+				LINT2 /* LoginInteractor.swift in Sources */,
+				LPRE2 /* LoginPresenter.swift in Sources */,
+				LROU2 /* LoginRouter.swift in Sources */,
+				LVIE2 /* LoginViewController.swift in Sources */,
+				D20039 /* AnimationDemoViewController.swift in Sources */,
+				D20040 /* SharedCells.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		TE0001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				T20001 /* TestSupport.swift in Sources */,
+				T20002 /* AnalyticsManagerTests.swift in Sources */,
+				T20003 /* HomeInteractorTests.swift in Sources */,
+				T20004 /* SearchInteractorTests.swift in Sources */,
+				T20005 /* SeeAllInteractorTests.swift in Sources */,
+				T20006 /* LoginInteractorTests.swift in Sources */,
+				T20007 /* DetailInteractorTests.swift in Sources */,
+				T20008 /* HomePresenterTests.swift in Sources */,
+				T20009 /* DetailPresenterTests.swift in Sources */,
+				T20010 /* SearchPresenterTests.swift in Sources */,
+				T20011 /* SeeAllPresenterTests.swift in Sources */,
+				T20012 /* LoginPresenterTests.swift in Sources */,
+				T20013 /* JSONFixtureDecodingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		TD0000 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AE000000 /* AnimeApp */;
+			targetProxy = TP0000 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		D1V001 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D1L001 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AF000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AF000004 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AF000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AnimeApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.animex.AnimeApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AF000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AnimeApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.animex.AnimeApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		TF0005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.animex.AnimeAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnimeApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AnimeApp";
+			};
+			name = Debug;
+		};
+		TF0006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.animex.AnimeAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AnimeApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AnimeApp";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AF000001 /* Build configuration list for PBXProject "AnimeApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF000003 /* Debug */,
+				AF000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF000002 /* Build configuration list for PBXNativeTarget "AnimeApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF000005 /* Debug */,
+				AF000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		TF0002 /* Build configuration list for PBXNativeTarget "AnimeAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				TF0005 /* Debug */,
+				TF0006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3F10CFB12FD81CFB00BFC5A0 /* XCRemoteSwiftPackageReference "Advanced-Codes" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/aditim10/Advanced-Codes";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		PKGL010 /* XCLocalSwiftPackageReference "PlayerSDK" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = PlayerSDK;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		PKG0002 /* ConcurrentAPI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F10CFB12FD81CFB00BFC5A0 /* XCRemoteSwiftPackageReference "Advanced-Codes" */;
+			productName = ConcurrentAPI;
+		};
+		PKG0012 /* PlayerSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = PKGL010 /* XCLocalSwiftPackageReference "PlayerSDK" */;
+			productName = PlayerSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = AF000000 /* Project object */;
+}

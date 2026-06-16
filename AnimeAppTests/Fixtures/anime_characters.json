@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "character": {
+        "mal_id": 80,
+        "name": "Lawliet, L",
+        "images": {
+          "jpg": { "image_url": "https://cdn.myanimelist.net/images/characters/6/64115.jpg" }
+        }
+      },
+      "role": "Main"
+    },
+    {
+      "character": {
+        "mal_id": 71,
+        "name": "Yagami, Light",
+        "images": {
+          "jpg": { "image_url": "https://cdn.myanimelist.net/images/characters/6/63870.jpg" }
+        }
+      },
+      "role": "Main"
+    },
+    {
+      "character": {
+        "mal_id": 6212,
+        "name": "Amane, Misa",
+        "images": {
+          "jpg": { "image_url": null }
+        }
+      },
+      "role": "Supporting"
+    }
+  ],
+  "pagination": {
+    "last_visible_page": 1,
+    "has_next_page": false,
+    "current_page": 1,
+    "items": { "count": 3, "total": 3, "per_page": 25 }
+  }
+}

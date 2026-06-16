@@ -1,0 +1,41 @@
+/*
+  Localizable.strings
+  AnimeApp
+
+  English (base) translations. Keys mirror `AppStrings`.
+*/
+
+// Common
+"common.ok"      = "OK";
+"common.cancel"  = "Cancel";
+"common.retry"   = "Retry";
+"common.error"   = "Error";
+"common.oops"    = "Oops";
+"common.see_all" = "See all";
+
+// Login
+"login.tagline"               = "Unlimited anime. Any time.";
+"login.email"                 = "Email address";
+"login.password"              = "Password";
+"login.sign_in"               = "Sign In";
+"login.hint"                  = "Demo: any valid email + 6+ char password";
+"login.error.empty_email"     = "Please enter your email.";
+"login.error.invalid_email"   = "Please enter a valid email address.";
+"login.error.empty_password"  = "Please enter your password.";
+"login.error.short_password"  = "Password must be at least 6 characters.";
+
+// Home
+"home.brand" = "ANIMEX";
+
+// Search
+"search.placeholder"          = "Search anime…";
+"search.discover.title"       = "Discover anime";
+"search.discover.subtitle"    = "Search by title to find shows and movies.";
+"search.no_results.title"     = "No results";
+"search.no_results.subtitle"  = "Try a different title or check the spelling.";
+
+// Detail
+"detail.characters"  = "Characters";
+"detail.synopsis"    = "Synopsis";
+"detail.watch_now"   = "▶  Watch Now";
+"detail.no_synopsis" = "No synopsis available.";

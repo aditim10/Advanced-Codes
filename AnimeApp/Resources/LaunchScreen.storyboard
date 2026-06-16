@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="LS-VC">
+    <device id="retina6_12" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21701"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="LS-scene">
+            <objects>
+                <viewController id="LS-VC" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LS-view">
+                        <rect key="frame" x="0" y="0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <!-- Pinned to the in-app Dark theme background (0.09, 0.08, 0.13) so the
+                             launch screen always matches, regardless of the system appearance. -->
+                        <color key="backgroundColor" red="0.09" green="0.08" blue="0.13" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <imageView contentMode="scaleAspectFit" image="sparkles" translatesAutoresizingMaskIntoConstraints="NO" id="LS-spark">
+                                <color key="tintColor" red="0.76" green="0.58" blue="1.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="LS-sw"/>
+                                    <constraint firstAttribute="height" constant="40" id="LS-sh"/>
+                                </constraints>
+                            </imageView>
+                            <label text="ANIMEX" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="LS-logo">
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="42"/>
+                                <color key="textColor" red="0.76" green="0.58" blue="1.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label text="Unlimited anime. Any time." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="LS-tagline">
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" red="0.72" green="0.67" blue="0.88" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeAreaLayoutGuide" id="LS-safe"/>
+                        <constraints>
+                            <constraint firstItem="LS-spark" firstAttribute="centerX" secondItem="LS-view" secondAttribute="centerX" id="LS-sx"/>
+                            <constraint firstItem="LS-logo" firstAttribute="top" secondItem="LS-spark" secondAttribute="bottom" constant="12" id="LS-sb"/>
+                            <constraint firstItem="LS-logo" firstAttribute="centerX" secondItem="LS-view" secondAttribute="centerX" id="LS-cx"/>
+                            <constraint firstItem="LS-logo" firstAttribute="centerY" secondItem="LS-view" secondAttribute="centerY" constant="-16" id="LS-cy"/>
+                            <constraint firstItem="LS-tagline" firstAttribute="centerX" secondItem="LS-view" secondAttribute="centerX" id="LS-tx"/>
+                            <constraint firstItem="LS-tagline" firstAttribute="top" secondItem="LS-logo" secondAttribute="bottom" constant="8" id="LS-ty"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LS-FR" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0" y="0"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="sparkles" catalog="system" width="128" height="116"/>
+    </resources>
+</document>
