@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "mal_id": 16498,
+      "title": "Shingeki no Kyojin",
+      "title_english": "Attack on Titan",
+      "synopsis": "Humanity fights for survival against man-eating Titans behind enormous walls.",
+      "score": 8.5,
+      "episodes": 25,
+      "status": "Finished Airing",
+      "year": 2013,
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/anime/10/47347.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/anime/10/47347t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/anime/10/47347l.jpg"
+        }
+      },
+      "genres": [
+        { "mal_id": 1, "name": "Action", "count": 4500 },
+        { "mal_id": 8, "name": "Drama", "count": 6100 }
+      ]
+    },
+    {
+      "mal_id": 38000,
+      "title": "Kimetsu no Yaiba",
+      "title_english": "Demon Slayer",
+      "synopsis": "A boy becomes a demon slayer to avenge his family and cure his sister.",
+      "score": 8.4,
+      "episodes": 26,
+      "status": "Finished Airing",
+      "year": 2019,
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/anime/1286/99889.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/anime/1286/99889t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/anime/1286/99889l.jpg"
+        }
+      },
+      "genres": [
+        { "mal_id": 1, "name": "Action", "count": 4500 },
+        { "mal_id": 37, "name": "Supernatural", "count": 2800 }
+      ]
+    }
+  ],
+  "pagination": {
+    "last_visible_page": 5,
+    "has_next_page": true,
+    "current_page": 1,
+    "items": { "count": 2, "total": 100, "per_page": 24 }
+  }
+}
