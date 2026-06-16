@@ -1,0 +1,72 @@
+{
+  "data": [
+    {
+      "mal_id": 5114,
+      "title": "Fullmetal Alchemist: Brotherhood",
+      "title_english": "Fullmetal Alchemist: Brotherhood",
+      "synopsis": "After a failed attempt to revive their mother, the Elric brothers search for the Philosopher's Stone.",
+      "score": 9.1,
+      "episodes": 64,
+      "status": "Finished Airing",
+      "year": 2009,
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/anime/1223/96541.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/anime/1223/96541t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/anime/1223/96541l.jpg"
+        }
+      },
+      "genres": [
+        { "mal_id": 1, "name": "Action", "count": 4500 },
+        { "mal_id": 2, "name": "Adventure", "count": 3200 },
+        { "mal_id": 8, "name": "Drama", "count": 6100 }
+      ]
+    },
+    {
+      "mal_id": 52991,
+      "title": "Sousou no Frieren",
+      "title_english": "Frieren: Beyond Journey's End",
+      "synopsis": "The elf mage Frieren reflects on her journey after the demon king is defeated.",
+      "score": 9.3,
+      "episodes": 28,
+      "status": "Finished Airing",
+      "year": 2023,
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/anime/1015/138006.jpg",
+          "small_image_url": "https://cdn.myanimelist.net/images/anime/1015/138006t.jpg",
+          "large_image_url": "https://cdn.myanimelist.net/images/anime/1015/138006l.jpg"
+        }
+      },
+      "genres": [
+        { "mal_id": 2, "name": "Adventure", "count": 3200 },
+        { "mal_id": 8, "name": "Drama", "count": 6100 },
+        { "mal_id": 10, "name": "Fantasy", "count": 5400 }
+      ]
+    },
+    {
+      "mal_id": 9999,
+      "title": "Ongoing Title With Missing Fields",
+      "title_english": null,
+      "synopsis": null,
+      "score": null,
+      "episodes": null,
+      "status": "Currently Airing",
+      "year": null,
+      "images": {
+        "jpg": {
+          "image_url": "https://cdn.myanimelist.net/images/anime/9999/0.jpg",
+          "small_image_url": null,
+          "large_image_url": null
+        }
+      },
+      "genres": []
+    }
+  ],
+  "pagination": {
+    "last_visible_page": 10,
+    "has_next_page": true,
+    "current_page": 1,
+    "items": { "count": 3, "total": 250, "per_page": 25 }
+  }
+}
