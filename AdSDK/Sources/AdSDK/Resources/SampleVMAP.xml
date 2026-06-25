@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SampleVMAP.xml
+
+  A deterministic, offline-friendly VMAP with two mid-roll breaks:
+    - midroll-1 at 25% of content: an ad POD of two inline ads (Ad 1 of 2 / 2 of 2)
+    - midroll-2 at 60% of content: a single inline ad
+
+  Each ad references an HLS MediaFile on a reliably-hosted public test stream that is
+  a *different* film from the main content, so a break is obvious. The streams are
+  long-form, but the runtime caps each ad to its VAST-declared <Duration> (~15s), so
+  only a short slice plays. (The previous Google `gtv-videos-bucket` MP4s were taken
+  private and now return 403, which silently broke playback — never use those again.)
+  Each ad also carries the full standard VAST linear tracking-event set (creativeView,
+  start, quartiles, complete, mute/unmute, pause/resume, skip, fullscreen, progress),
+  impressions, errors, and VideoClicks. Tracking beacons point at example.com
+  (fire-and-forget; failures are ignored).
+-->
+<vmap:VMAP xmlns:vmap="http://www.iab.net/videosuite/vmap" version="1.0">
+
+  <vmap:AdBreak timeOffset="25%" breakType="linear" breakId="midroll-1">
+    <vmap:AdSource id="src-1" allowMultipleAds="true" followRedirects="true">
+      <vmap:VASTAdData>
+        <VAST version="4.0">
+          <Ad id="midroll-1-ad-1" sequence="1">
+            <InLine>
+              <AdSystem version="1.0">AdSDK Sample</AdSystem>
+              <AdTitle>Sample Mid-roll Ad A</AdTitle>
+              <Impression><![CDATA[https://example.com/track/imp/midroll1/ad1]]></Impression>
+              <Error><![CDATA[https://example.com/track/error/midroll1/ad1]]></Error>
+              <Creatives>
+                <Creative id="c1">
+                  <Linear skipoffset="00:00:05">
+                    <Duration>00:00:15</Duration>
+                    <TrackingEvents>
+                      <Tracking event="creativeView"><![CDATA[https://example.com/track/creativeView/ad1]]></Tracking>
+                      <Tracking event="start"><![CDATA[https://example.com/track/start/ad1]]></Tracking>
+                      <Tracking event="firstQuartile"><![CDATA[https://example.com/track/q1/ad1]]></Tracking>
+                      <Tracking event="midpoint"><![CDATA[https://example.com/track/mid/ad1]]></Tracking>
+                      <Tracking event="thirdQuartile"><![CDATA[https://example.com/track/q3/ad1]]></Tracking>
+                      <Tracking event="complete"><![CDATA[https://example.com/track/complete/ad1]]></Tracking>
+                      <Tracking event="mute"><![CDATA[https://example.com/track/mute/ad1]]></Tracking>
+                      <Tracking event="unmute"><![CDATA[https://example.com/track/unmute/ad1]]></Tracking>
+                      <Tracking event="pause"><![CDATA[https://example.com/track/pause/ad1]]></Tracking>
+                      <Tracking event="resume"><![CDATA[https://example.com/track/resume/ad1]]></Tracking>
+                      <Tracking event="skip"><![CDATA[https://example.com/track/skip/ad1]]></Tracking>
+                      <Tracking event="fullscreen"><![CDATA[https://example.com/track/fullscreen/ad1]]></Tracking>
+                      <Tracking event="progress" offset="00:00:03"><![CDATA[https://example.com/track/progress3/ad1]]></Tracking>
+                    </TrackingEvents>
+                    <MediaFiles>
+                      <MediaFile delivery="streaming" type="application/x-mpegURL" width="1280" height="720">
+                        <![CDATA[https://test-streams.mux.dev/tos_ismc/main.m3u8]]>
+                      </MediaFile>
+                    </MediaFiles>
+                    <VideoClicks>
+                      <ClickThrough><![CDATA[https://example.com/landing/ad1]]></ClickThrough>
+                      <ClickTracking><![CDATA[https://example.com/track/click/ad1]]></ClickTracking>
+                    </VideoClicks>
+                  </Linear>
+                </Creative>
+              </Creatives>
+            </InLine>
+          </Ad>
+          <Ad id="midroll-1-ad-2" sequence="2">
+            <InLine>
+              <AdSystem version="1.0">AdSDK Sample</AdSystem>
+              <AdTitle>Sample Mid-roll Ad B</AdTitle>
+              <Impression><![CDATA[https://example.com/track/imp/midroll1/ad2]]></Impression>
+              <Error><![CDATA[https://example.com/track/error/midroll1/ad2]]></Error>
+              <Creatives>
+                <Creative id="c2">
+                  <Linear skipoffset="00:00:05">
+                    <Duration>00:00:15</Duration>
+                    <TrackingEvents>
+                      <Tracking event="creativeView"><![CDATA[https://example.com/track/creativeView/ad2]]></Tracking>
+                      <Tracking event="start"><![CDATA[https://example.com/track/start/ad2]]></Tracking>
+                      <Tracking event="firstQuartile"><![CDATA[https://example.com/track/q1/ad2]]></Tracking>
+                      <Tracking event="midpoint"><![CDATA[https://example.com/track/mid/ad2]]></Tracking>
+                      <Tracking event="thirdQuartile"><![CDATA[https://example.com/track/q3/ad2]]></Tracking>
+                      <Tracking event="complete"><![CDATA[https://example.com/track/complete/ad2]]></Tracking>
+                      <Tracking event="skip"><![CDATA[https://example.com/track/skip/ad2]]></Tracking>
+                    </TrackingEvents>
+                    <MediaFiles>
+                      <MediaFile delivery="streaming" type="application/x-mpegURL" width="1280" height="720">
+                        <![CDATA[https://devstreaming-cdn.apple.com/videos/streaming/examples/bipbop_adv_example_hevc/master.m3u8]]>
+                      </MediaFile>
+                    </MediaFiles>
+                    <VideoClicks>
+                      <ClickThrough><![CDATA[https://example.com/landing/ad2]]></ClickThrough>
+                      <ClickTracking><![CDATA[https://example.com/track/click/ad2]]></ClickTracking>
+                    </VideoClicks>
+                  </Linear>
+                </Creative>
+              </Creatives>
+            </InLine>
+          </Ad>
+        </VAST>
+      </vmap:VASTAdData>
+    </vmap:AdSource>
+  </vmap:AdBreak>
+
+  <vmap:AdBreak timeOffset="60%" breakType="linear" breakId="midroll-2">
+    <vmap:AdSource id="src-2" allowMultipleAds="true" followRedirects="true">
+      <vmap:VASTAdData>
+        <VAST version="4.0">
+          <Ad id="midroll-2-ad-1">
+            <InLine>
+              <AdSystem version="1.0">AdSDK Sample</AdSystem>
+              <AdTitle>Sample Mid-roll Ad C</AdTitle>
+              <Impression><![CDATA[https://example.com/track/imp/midroll2/ad1]]></Impression>
+              <Error><![CDATA[https://example.com/track/error/midroll2/ad1]]></Error>
+              <Creatives>
+                <Creative id="c3">
+                  <Linear skipoffset="00:00:05">
+                    <Duration>00:00:15</Duration>
+                    <TrackingEvents>
+                      <Tracking event="creativeView"><![CDATA[https://example.com/track/creativeView/ad3]]></Tracking>
+                      <Tracking event="start"><![CDATA[https://example.com/track/start/ad3]]></Tracking>
+                      <Tracking event="firstQuartile"><![CDATA[https://example.com/track/q1/ad3]]></Tracking>
+                      <Tracking event="midpoint"><![CDATA[https://example.com/track/mid/ad3]]></Tracking>
+                      <Tracking event="thirdQuartile"><![CDATA[https://example.com/track/q3/ad3]]></Tracking>
+                      <Tracking event="complete"><![CDATA[https://example.com/track/complete/ad3]]></Tracking>
+                      <Tracking event="skip"><![CDATA[https://example.com/track/skip/ad3]]></Tracking>
+                    </TrackingEvents>
+                    <MediaFiles>
+                      <MediaFile delivery="streaming" type="application/x-mpegURL" width="1280" height="720">
+                        <![CDATA[https://test-streams.mux.dev/tos_ismc/main.m3u8]]>
+                      </MediaFile>
+                    </MediaFiles>
+                    <VideoClicks>
+                      <ClickThrough><![CDATA[https://example.com/landing/ad3]]></ClickThrough>
+                      <ClickTracking><![CDATA[https://example.com/track/click/ad3]]></ClickTracking>
+                    </VideoClicks>
+                  </Linear>
+                </Creative>
+              </Creatives>
+            </InLine>
+          </Ad>
+        </VAST>
+      </vmap:VASTAdData>
+    </vmap:AdSource>
+  </vmap:AdBreak>
+
+</vmap:VMAP>

@@ -59,6 +59,46 @@ extension APIClient {
     }
 }
 
+// MARK: - Friendly error messages
+
+/// Maps low-level networking errors to short, calm, user-facing copy so screens
+/// can show smooth "something went wrong" states instead of raw system text like
+/// "The operation couldn't be completed." Lives here because it needs to inspect
+/// `ConcurrentAPI`'s `APIError`; callers pass a plain `Error?` and get a string.
+enum APIErrorMessage {
+
+    static func text(for error: Error?) -> String {
+        if let apiError = error as? APIError {
+            switch apiError {
+            case .networkFailure:
+                return offline
+            case .httpError(let code, _):
+                if code == 429 { return rateLimited }
+                if (500...599).contains(code) { return serverDown }
+                return "Something went wrong (error \(code)). Please try again."
+            default:
+                return generic
+            }
+        }
+        if let urlError = error as? URLError {
+            switch urlError.code {
+            case .notConnectedToInternet, .networkConnectionLost, .dataNotAllowed:
+                return offline
+            case .timedOut:
+                return "The request timed out. Please check your connection and try again."
+            default:
+                return generic
+            }
+        }
+        return generic
+    }
+
+    static let offline = "You appear to be offline. Check your connection and try again."
+    static let serverDown = "Our servers are taking a break. Please try again in a little while."
+    static let rateLimited = "We're getting a lot of requests right now. Please try again in a moment."
+    static let generic = "We couldn't load the latest anime. Please try again."
+}
+
 // MARK: - Retryability
 
 extension APIError {

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import AnalyticsKit
 
 @MainActor
 protocol LoginBusinessLogic {
@@ -27,34 +28,38 @@ final class LoginInteractor: LoginBusinessLogic {
 
     func signIn(request: Login.SignIn.Request) {
         let email = request.email ?? ""
-        analytics.publish(LoginAnalyticsEvent.attempt(email: email))
+        let name = (request.name ?? "").trimmingCharacters(in: .whitespaces)
+        analytics.emit(LoginAnalyticsEvent.attempt(userID: Session.analyticsUserID))
 
-        if let reason = validate(email: request.email, password: request.password) {
-            analytics.publish(LoginAnalyticsEvent.invalidCredentials(reason: reason))
+        if let reason = validate(name: request.name, email: request.email, password: request.password) {
+            analytics.emit(LoginAnalyticsEvent.invalidCredentials(reason: reason))
             presenter?.presentResult(response: Login.SignIn.Response(outcome: .failure(reason: reason)))
             return
         }
 
         task?.cancel()
-        task = Task { await performSignIn(email: email) }
+        task = Task { await performSignIn(email: email, name: name) }
     }
 
     // MARK: - Work
 
     /// Simulated auth. A real implementation would call an auth endpoint here and
     /// emit `LoginAnalyticsEvent.failure` on a rejected response.
-    private func performSignIn(email: String) async {
+    private func performSignIn(email: String, name: String) async {
         presenter?.presentLoading(true)
         try? await Task.sleep(nanoseconds: 1_200_000_000)
         presenter?.presentLoading(false)
 
-        Session.signIn(email: email)
-        analytics.publish(LoginAnalyticsEvent.success(email: email))
+        Session.signIn(email: email, name: name)
+        analytics.emit(LoginAnalyticsEvent.success(userID: Session.analyticsUserID))
         presenter?.presentResult(response: Login.SignIn.Response(outcome: .success(email: email)))
     }
 
     /// Returns a user-facing error message if the input is invalid, else `nil`.
-    private func validate(email: String?, password: String?) -> String? {
+    private func validate(name: String?, email: String?, password: String?) -> String? {
+        guard let name, !name.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return AppStrings.Login.errorEmptyName
+        }
         guard let email, !email.trimmingCharacters(in: .whitespaces).isEmpty else {
             return AppStrings.Login.errorEmptyEmail
         }

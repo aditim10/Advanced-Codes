@@ -7,6 +7,7 @@
 
 import Foundation
 import ConcurrentAPI
+import AnalyticsKit
 
 @MainActor
 protocol SearchBusinessLogic {
@@ -63,7 +64,7 @@ final class SearchInteractor: SearchBusinessLogic, SearchDataStore {
         }
 
         currentQuery = trimmed
-        analytics.publish(SearchAnalyticsEvent.query(trimmed))
+        analytics.emit(SearchAnalyticsEvent.query(trimmed))
         present(.loading)
         activeTask = Task { await loadPage(reset: true) }
     }
@@ -92,7 +93,7 @@ final class SearchInteractor: SearchBusinessLogic, SearchDataStore {
 
         let page = reset ? 1 : currentPage + 1
         if !reset {
-            analytics.publish(SearchAnalyticsEvent.paginate(query: currentQuery, page: page))
+            analytics.emit(SearchAnalyticsEvent.paginate(query: currentQuery, page: page))
         }
 
         do {
@@ -109,14 +110,14 @@ final class SearchInteractor: SearchBusinessLogic, SearchDataStore {
             currentPage = result.currentPage
             hasNextPage = result.hasNextPage
 
-            analytics.publish(
+            analytics.emit(
                 SearchAnalyticsEvent.resultSuccess(query: currentQuery, count: result.items.count))
             present(results.isEmpty ? .empty : .results)
         } catch {
             if Task.isCancelled { return }
             if case APIError.cancelled = error { return }
 
-            analytics.publish(
+            analytics.emit(
                 SearchAnalyticsEvent.resultFailure(query: currentQuery, reason: error.localizedDescription))
             if reset {
                 results = []

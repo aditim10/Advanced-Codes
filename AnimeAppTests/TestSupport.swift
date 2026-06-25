@@ -9,6 +9,7 @@
 //
 
 import Foundation
+import AnalyticsKit
 @testable import AnimeApp
 
 // MARK: - Sample data

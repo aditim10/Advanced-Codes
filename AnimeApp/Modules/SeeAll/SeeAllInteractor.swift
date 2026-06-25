@@ -8,6 +8,7 @@
 
 import Foundation
 import ConcurrentAPI
+import AnalyticsKit
 
 @MainActor
 protocol SeeAllBusinessLogic {
@@ -58,7 +59,7 @@ final class SeeAllInteractor: SeeAllBusinessLogic, SeeAllDataStore {
 
     func loadInitial(request: SeeAll.Load.Request) {
         guard items.isEmpty else { return }
-        analytics.publish(SeeAllAnalyticsEvent.open(section: sectionTitle))
+        analytics.emit(SeeAllAnalyticsEvent.open(section: sectionTitle))
         present(.loading)
         Task { await loadNextPage() }
     }
@@ -78,7 +79,7 @@ final class SeeAllInteractor: SeeAllBusinessLogic, SeeAllDataStore {
 
         let nextPage = currentPage + 1
         if nextPage > 1 {
-            analytics.publish(SeeAllAnalyticsEvent.paginate(section: sectionTitle, page: nextPage))
+            analytics.emit(SeeAllAnalyticsEvent.paginate(section: sectionTitle, page: nextPage))
         }
 
         do {

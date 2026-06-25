@@ -37,7 +37,7 @@ struct AnimeDetailService: AnimeDetailServicing {
     }
 
     func detailWithCharacters(id: Int) async throws -> (anime: Anime, characters: [CharacterEntry]) {
-        async let detailTask     = detail(id: id)
+        async let detailTask = detail(id: id)
         async let charactersTask = characters(animeID: id)
         return try await (detailTask, charactersTask)
     }

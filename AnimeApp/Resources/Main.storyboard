@@ -144,10 +144,10 @@
                         <color key="backgroundColor" name="ThemeBackground"/>
                         <constraints>
                             <constraint firstItem="LoginVC-logo" firstAttribute="centerX" secondItem="LoginVC-view" secondAttribute="centerX" id="lc1"/>
-                            <constraint firstItem="LoginVC-logo" firstAttribute="top" secondItem="E07-gA-PdQ" secondAttribute="top" constant="80" id="lc2"/>
+                            <constraint firstItem="LoginVC-logo" firstAttribute="top" secondItem="E07-gA-PdQ" secondAttribute="top" constant="48" id="lc2"/>
                             <constraint firstItem="LoginVC-tagline" firstAttribute="centerX" secondItem="LoginVC-view" secondAttribute="centerX" id="lc3"/>
                             <constraint firstItem="LoginVC-tagline" firstAttribute="top" secondItem="LoginVC-logo" secondAttribute="bottom" constant="8" id="lc4"/>
-                            <constraint firstItem="LoginVC-card" firstAttribute="top" secondItem="LoginVC-tagline" secondAttribute="bottom" constant="48" id="lc5"/>
+                            <constraint firstItem="LoginVC-card" firstAttribute="top" secondItem="LoginVC-tagline" secondAttribute="bottom" constant="32" id="lc5"/>
                             <constraint firstItem="LoginVC-card" firstAttribute="leading" secondItem="LoginVC-view" secondAttribute="leading" constant="24" id="lc6"/>
                             <constraint firstAttribute="trailing" secondItem="LoginVC-card" secondAttribute="trailing" constant="24" id="lc7"/>
                             <constraint firstItem="LoginVC-hint" firstAttribute="centerX" secondItem="LoginVC-view" secondAttribute="centerX" id="lc8"/>
@@ -278,7 +278,6 @@
                         <outlet property="searchButton" destination="HomeVC-search" id="o-searchBtn"/>
                         <outlet property="tableView" destination="HomeVC-table" id="o-table"/>
                         <segue destination="DetailVC" kind="show" identifier="showDetail" id="seg-showDetail"/>
-                        <segue destination="DemoNav" kind="push" identifier="showDemo" id="seg-showDemo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fr-homeVC" sceneMemberID="firstResponder"/>
@@ -476,37 +475,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fr-detailVC" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="700" y="820"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="s-demoNav">
-            <objects>
-                <navigationController storyboardIdentifier="AnimationDemoNavigationController" id="DemoNav" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DemoNav-bar">
-                        <rect key="frame" x="0.0" y="94" width="390" height="54"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="DemoVC" kind="relationship" relationship="rootViewController" id="seg-demoNav-root"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-demoNav" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-260" y="1800"/>
-        </scene>
-        <!--Animation Demo View Controller-->
-        <scene sceneID="s-demoVC">
-            <objects>
-                <viewController storyboardIdentifier="AnimationDemoViewController" id="DemoVC" customClass="AnimationDemoViewController" customModule="AnimeApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="DemoVC-view">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="gVc-xl-tTy"/>
-                        <color key="backgroundColor" name="ThemeBackground"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fr-demoVC" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="442" y="1800"/>
         </scene>
     </scenes>
     <resources>

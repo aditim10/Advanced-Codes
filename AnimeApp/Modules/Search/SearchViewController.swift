@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ImageLoaderKit
 
 @MainActor
 protocol SearchDisplayLogic: AnyObject {
@@ -390,8 +391,9 @@ final class SearchResultCell: UITableViewCell {
     func configure(with item: AnimeCardDisplaying) {
         applyTheme()
         titleLabel.text = item.cardTitle
-        scoreLabel.text = "⭐ \(item.cardScore)"
-        metaLabel.text  = item.cardMeta
+        scoreLabel.attributedText = RatingBadge.attributed(
+            item.cardScore, color: ThemeManager.shared.current.amberScore, fontSize: 12)
+        metaLabel.text = item.cardMeta
 
         posterView.image = nil
         imageTask?.cancel()

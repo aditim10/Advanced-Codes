@@ -9,6 +9,8 @@
 
 import UIKit
 import PlayerSDK
+import ImageLoaderKit
+import AdSDK
 
 @MainActor
 protocol DetailDisplayLogic: AnyObject {
@@ -20,19 +22,19 @@ protocol DetailDisplayLogic: AnyObject {
 final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
 
     // MARK: - IBOutlets
-    @IBOutlet weak var scrollView:          UIScrollView!
-    @IBOutlet weak var heroImageView:       UIImageView!
-    @IBOutlet weak var titleLabel:          UILabel!
-    @IBOutlet weak var scoreLabel:          UILabel!
-    @IBOutlet weak var metaLabel:           UILabel!
-    @IBOutlet weak var genreLabel:          UILabel!
-    @IBOutlet weak var synopsisLabel:       UILabel!
-    @IBOutlet weak var watchButton:         UIButton!
+    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var heroImageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var metaLabel: UILabel!
+    @IBOutlet weak var genreLabel: UILabel!
+    @IBOutlet weak var synopsisLabel: UILabel!
+    @IBOutlet weak var watchButton: UIButton!
     @IBOutlet weak var charsCollectionView: UICollectionView!
-    @IBOutlet weak var loadingIndicator:    UIActivityIndicatorView!
-    @IBOutlet weak var charsTitleLabel:     UILabel!
-    @IBOutlet weak var backButton:          UIButton!
-    @IBOutlet weak var synTitleLabel:       UILabel!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var charsTitleLabel: UILabel!
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var synTitleLabel: UILabel!
 
     // MARK: - VIP collaborators
     var interactor: DetailBusinessLogic?
@@ -40,11 +42,33 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
 
     private var characters: [Detail.Character] = []
     private var currentTitle = ""
+    private var currentScore = ""
     private var trailerYouTubeID: String?
     private var loadedImageURL: URL?
     private var imageTask: Task<Void, Never>?
 
     private let heroGradient = CAGradientLayer()
+
+    /// "Read more / Read less" toggle for a long synopsis.
+    private let readMoreButton = UIButton(type: .system)
+    private var isSynopsisExpanded = false
+    private let collapsedSynopsisLines = 8
+
+    /// The custom AVPlayer overlaid on the hero banner (PlayerSDK). Non-nil while
+    /// the inline trailer is playing.
+    private var inlinePlayer: VideoPlayerView?
+
+    /// Drives VMAP mid-roll ads over the inline custom player (AdSDK). Non-nil only
+    /// while the custom player is showing.
+    private var adCoordinator: AdPlaybackCoordinator?
+
+    /// Bridges the PlayerSDK player to AdSDK's `AdContentPlayer` abstraction. Held
+    /// strongly because the coordinator references it without owning it.
+    private var adContentAdapter: VideoPlayerAdContentAdapter?
+
+    /// Routes AdSDK events + stream metrics into AnalyticsKit. Held strongly here
+    /// because the coordinator keeps only a weak reference to its logger.
+    private let adLogger = AdLoggerBridge()
 
     /// The storyboard's fixed hero-height constraint, resolved at setup so we can
     /// drive it adaptively (taller on iPad / landscape) instead of a fixed 380pt.
@@ -52,12 +76,6 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
 
     /// Circular "play trailer" button overlaid on the hero poster.
     private let trailerButton = UIButton(type: .system)
-
-    /// Fallback clip for the rare title with no YouTube trailer in the API. Uses
-    /// Apple's public HLS test stream — adaptive, fast-starting, and reliably
-    /// reachable (a progressive MP4 was hanging at 0:00 on the simulator).
-    private static let dummyTrailerURL = URL(
-        string: "https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_ts/master.m3u8")!
 
     // MARK: - Init / VIP setup
     required init?(coder: NSCoder) {
@@ -94,6 +112,14 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
             name: ThemeManager.didChangeTheme, object: nil)
     }
 
+    /// Re-hide the nav bar on every appearance. The Character Detail screen shows
+    /// it for its themed back button; without this, returning here would leave the
+    /// system back button on screen alongside our floating one (two back buttons).
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let heroHeight = Layout.detailHeroHeight(forAvailableHeight: view.bounds.height)
@@ -102,6 +128,7 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
             view.layoutIfNeeded()
         }
         heroGradient.frame = heroImageView.bounds
+        updateReadMoreVisibility()
     }
 
     /// Resize character cells when the size class flips (iPad vs iPhone).
@@ -122,9 +149,12 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
 
     // MARK: - Structure (no colours)
     private func setupStructure() {
-        navigationController?.setNavigationBarHidden(true, animated: false)
+        // Full-bleed hero (under the status bar). This also makes the scroll view's
+        // resting content origin line up with its frame top, so the sticky inline
+        // player can be pinned to `frameLayoutGuide.top` and overlay the hero exactly.
+        scrollView.contentInsetAdjustmentBehavior = .never
 
-        heroImageView.contentMode   = .scaleAspectFill
+        heroImageView.contentMode = .scaleAspectFill
         heroImageView.clipsToBounds = true
         heroImageView.layer.addSublayer(heroGradient)
         heroHeightConstraint = heroImageView.constraints.first {
@@ -132,24 +162,25 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
         }
         setupTrailerButton()
 
-        titleLabel.font          = .systemFont(ofSize: 26, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: 26, weight: .bold)
         titleLabel.numberOfLines = 3
-        scoreLabel.font          = .systemFont(ofSize: 17, weight: .semibold)
-        metaLabel.font           = .systemFont(ofSize: 13)
-        genreLabel.font          = .systemFont(ofSize: 12, weight: .semibold)
-        synopsisLabel.font       = .systemFont(ofSize: 14)
-        synopsisLabel.numberOfLines = 0
-        charsTitleLabel.text     = AppStrings.Detail.characters
-        charsTitleLabel.font     = .systemFont(ofSize: 17, weight: .semibold)
-        synTitleLabel.text       = AppStrings.Detail.synopsis
+        scoreLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        metaLabel.font = .systemFont(ofSize: 13)
+        genreLabel.font = .systemFont(ofSize: 12, weight: .semibold)
+        synopsisLabel.font = .systemFont(ofSize: 14)
+        synopsisLabel.numberOfLines = collapsedSynopsisLines
+        charsTitleLabel.text = AppStrings.Detail.characters
+        charsTitleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
+        synTitleLabel.text = AppStrings.Detail.synopsis
+        setupReadMoreButton()
 
         watchButton.setTitle(AppStrings.Detail.watchNow, for: .normal)
         watchButton.setTitleColor(.white, for: .normal)
-        watchButton.titleLabel?.font    = .systemFont(ofSize: 16, weight: .semibold)
-        watchButton.layer.cornerRadius  = 16
+        watchButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        watchButton.layer.cornerRadius = 16
         watchButton.layer.shadowOpacity = 0.35
-        watchButton.layer.shadowRadius  = 10
-        watchButton.layer.shadowOffset  = CGSize(width: 0, height: 4)
+        watchButton.layer.shadowRadius = 10
+        watchButton.layer.shadowOffset = CGSize(width: 0, height: 4)
 
         // Back button: configured fully in code so the arrow is always crisp and
         // visible over the hero image, independent of storyboard colours.
@@ -160,21 +191,21 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
             for: .normal)
         backButton.imageView?.contentMode = .scaleAspectFit
         backButton.layer.cornerRadius = 22
-        backButton.clipsToBounds      = false
-        backButton.layer.shadowColor  = UIColor.black.cgColor
+        backButton.clipsToBounds = false
+        backButton.layer.shadowColor = UIColor.black.cgColor
         backButton.layer.shadowOpacity = 0.35
-        backButton.layer.shadowRadius  = 6
-        backButton.layer.shadowOffset  = CGSize(width: 0, height: 2)
+        backButton.layer.shadowRadius = 6
+        backButton.layer.shadowOffset = CGSize(width: 0, height: 2)
 
         charsCollectionView.showsHorizontalScrollIndicator = false
         charsCollectionView.register(CharacterCell.self, forCellWithReuseIdentifier: CharacterCell.id)
         charsCollectionView.dataSource = self
         charsCollectionView.delegate = self
         if let layout = charsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection         = .horizontal
-            layout.itemSize                = Layout.characterCellSize(for: traitCollection)
+            layout.scrollDirection = .horizontal
+            layout.itemSize = Layout.characterCellSize(for: traitCollection)
             layout.minimumInteritemSpacing = 10
-            layout.sectionInset            = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+            layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         }
 
         loadingIndicator.hidesWhenStopped = true
@@ -210,25 +241,73 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
         ])
     }
 
+    /// "Read more / Read less" control pinned to the Synopsis section header. It
+    /// collapses the synopsis to `collapsedSynopsisLines` and expands on tap.
+    /// Hidden automatically when the synopsis already fits.
+    private func setupReadMoreButton() {
+        readMoreButton.translatesAutoresizingMaskIntoConstraints = false
+        readMoreButton.setTitle(AppStrings.Detail.readMore, for: .normal)
+        readMoreButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
+        readMoreButton.addTarget(self, action: #selector(toggleSynopsis), for: .touchUpInside)
+        readMoreButton.isHidden = true
+        guard let container = synTitleLabel.superview else { return }
+        container.addSubview(readMoreButton)
+        NSLayoutConstraint.activate([
+            readMoreButton.trailingAnchor.constraint(equalTo: synopsisLabel.trailingAnchor),
+            readMoreButton.centerYAnchor.constraint(equalTo: synTitleLabel.centerYAnchor),
+        ])
+    }
+
+    @objc private func toggleSynopsis() {
+        isSynopsisExpanded.toggle()
+        synopsisLabel.numberOfLines = isSynopsisExpanded ? 0 : collapsedSynopsisLines
+        readMoreButton.setTitle(
+            isSynopsisExpanded ? AppStrings.Detail.readLess : AppStrings.Detail.readMore,
+            for: .normal)
+        UIView.animate(withDuration: 0.25) { self.view.layoutIfNeeded() }
+    }
+
+    /// Shows the toggle only when the synopsis genuinely overflows the collapsed
+    /// line count. Runs after layout so the label has a resolved width.
+    private func updateReadMoreVisibility() {
+        guard let text = synopsisLabel.text, !text.isEmpty,
+              synopsisLabel.bounds.width > 0,
+              let font = synopsisLabel.font else { return }
+        let maxSize = CGSize(width: synopsisLabel.bounds.width, height: .greatestFiniteMagnitude)
+        let bounding = (text as NSString).boundingRect(
+            with: maxSize,
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: [.font: font], context: nil)
+        let totalLines = Int(ceil(bounding.height / font.lineHeight))
+        let needsTruncation = totalLines > collapsedSynopsisLines
+        readMoreButton.isHidden = !needsTruncation
+        if !needsTruncation {
+            synopsisLabel.numberOfLines = 0
+        } else if !isSynopsisExpanded {
+            synopsisLabel.numberOfLines = collapsedSynopsisLines
+        }
+    }
+
     // MARK: - Theme
     @objc private func themeChanged() { applyTheme() }
 
     private func applyTheme() {
         let theme = ThemeManager.shared.current
 
-        view.backgroundColor               = theme.background
-        scrollView.backgroundColor         = theme.background
+        view.backgroundColor = theme.background
+        scrollView.backgroundColor = theme.background
         charsCollectionView.backgroundColor = .clear
 
-        heroGradient.colors   = [UIColor.clear.cgColor,
-                                  theme.background.withAlphaComponent(0.6).cgColor,
-                                  theme.background.cgColor]
+        heroGradient.colors = [UIColor.clear.cgColor,
+                               theme.background.withAlphaComponent(0.6).cgColor,
+                               theme.background.cgColor]
         heroGradient.locations = [0.45, 0.78, 1.0]
 
-        titleLabel.textColor    = theme.bodyText
-        scoreLabel.textColor    = theme.amberScore
-        metaLabel.textColor     = theme.secondaryText
-        genreLabel.textColor    = theme.accentPrimary
+        titleLabel.textColor = theme.bodyText
+        scoreLabel.textColor = theme.amberScore
+        refreshScore()
+        metaLabel.textColor = theme.secondaryText
+        genreLabel.textColor = theme.accentPrimary
         synopsisLabel.textColor = theme.bodyText.withAlphaComponent(0.85)
         charsTitleLabel.textColor = theme.bodyText
 
@@ -240,8 +319,8 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
             $0?.isOpaque = false
         }
 
-        watchButton.backgroundColor     = theme.accentSecondary
-        watchButton.layer.shadowColor   = theme.accentSecondary.cgColor
+        watchButton.backgroundColor = theme.accentSecondary
+        watchButton.layer.shadowColor = theme.accentSecondary.cgColor
 
         synTitleLabel?.textColor = theme.bodyText
 
@@ -251,9 +330,17 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
         backButton?.tintColor = .white
 
         loadingIndicator.color = theme.accentPrimary
+        readMoreButton.setTitleColor(theme.accentPrimary, for: .normal)
 
         setNeedsStatusBarAppearanceUpdate()
         charsCollectionView.reloadData()
+    }
+
+    /// Rebuilds the score label as a solid tinted-star badge in the current theme.
+    private func refreshScore() {
+        guard !currentScore.isEmpty else { return }
+        scoreLabel.attributedText = RatingBadge.attributed(
+            currentScore, color: ThemeManager.shared.current.amberScore, fontSize: 17)
     }
 
     // MARK: - DetailDisplayLogic
@@ -263,14 +350,22 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
     }
 
     func displayDetail(_ viewModel: Detail.ViewModel) {
-        currentTitle       = viewModel.title
-        trailerYouTubeID   = viewModel.trailerYouTubeID
+        currentTitle = viewModel.title
+        currentScore = viewModel.score
+        trailerYouTubeID = viewModel.trailerYouTubeID
         print("[Trailer] displayDetail '\(viewModel.title)' — youtubeID = \(viewModel.trailerYouTubeID ?? "nil")")
-        titleLabel.text    = viewModel.title
-        scoreLabel.text    = viewModel.score
-        metaLabel.text     = viewModel.meta
-        genreLabel.text    = viewModel.genres
+        titleLabel.text = viewModel.title
+        refreshScore()
+        metaLabel.text = viewModel.meta
+        genreLabel.text = viewModel.genres
         synopsisLabel.text = viewModel.synopsis
+
+        // Reset the read-more state for the freshly loaded synopsis; the toggle
+        // re-evaluates on the next layout pass.
+        isSynopsisExpanded = false
+        synopsisLabel.numberOfLines = collapsedSynopsisLines
+        readMoreButton.setTitle(AppStrings.Detail.readMore, for: .normal)
+        view.setNeedsLayout()
 
         loadHeroImage(from: viewModel.heroImageURL)
 
@@ -337,17 +432,64 @@ final class AnimeDetailViewController: UIViewController, DetailDisplayLogic {
         presentCustomPlayer()
     }
 
-    /// Presents PlayerSDK's `VideoPlayerView` (our custom AVPlayer) with a sample
-    /// stream. Used for titles without a YouTube trailer and for the long-press
-    /// test path above.
+    /// Overlays PlayerSDK's `VideoPlayerView` (our custom AVPlayer) directly on
+    /// top of the hero banner — rather than presenting a separate modal in the
+    /// middle of the screen — and plays a sample stream. Used for titles without a
+    /// YouTube trailer and for the long-press test path above.
     private func presentCustomPlayer() {
-        let config = VideoPlayerConfiguration(
-            url: Self.dummyTrailerURL,
+        dismissInlinePlayer()   // tear down any existing overlay first
+
+        let player = VideoPlayerView()
+        player.translatesAutoresizingMaskIntoConstraints = false
+        player.clipsToBounds = true
+        player.onRequestClose = { [weak self] in self?.dismissInlinePlayer() }
+
+        // Attach to the root view (not the scrolling hero image) and pin to the
+        // scroll view's fixed frame, so the player stays put at the top while the
+        // content below scrolls underneath it.
+        view.addSubview(player)
+        NSLayoutConstraint.activate([
+            player.topAnchor.constraint(equalTo: scrollView.frameLayoutGuide.topAnchor),
+            player.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            player.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
+            player.heightAnchor.constraint(equalTo: heroImageView.heightAnchor),
+        ])
+        inlinePlayer = player
+        trailerButton.isHidden = true
+
+        // Drive content + VMAP mid-roll ads through AdSDK. AdSDK is decoupled from
+        // PlayerSDK: we hand the coordinator an adapter that conforms our player to
+        // AdSDK's `AdContentPlayer`. The coordinator loads the content stream,
+        // schedules ads per the viewer's `Session.adTier`, and redirects forward
+        // seeks across unwatched breaks (snap to ad, snap back).
+        let accent = ThemeManager.shared.current.accentPrimary
+        let adapter = VideoPlayerAdContentAdapter(player: player, accentColor: accent)
+        adapter.passthroughDelegate = self   // keep existing logging callbacks
+        adContentAdapter = adapter
+
+        let adConfig = AdPlaybackConfiguration(
+            contentURL: AdSampleSources.dummyContentURL,
             title: currentTitle.isEmpty ? AppStrings.Detail.watchNow : currentTitle,
-            autoPlay: true)
-        let playerVC = TrailerPlayerViewController(configuration: config)
-        playerVC.playerDelegate = self   // observe all player callbacks
-        present(playerVC, animated: true)
+            vmapSource: AdSampleSources.sampleVMAPSource,
+            tier: Session.adTier,
+            seekPolicy: .redirect,
+            accentColor: accent)
+        let coordinator = AdPlaybackCoordinator(
+            contentPlayer: adapter, configuration: adConfig, logger: adLogger)
+        adCoordinator = coordinator
+        coordinator.start()
+    }
+
+    /// Removes the inline hero player (if any) and restores the play button.
+    private func dismissInlinePlayer() {
+        adCoordinator?.stop()
+        adCoordinator = nil
+        adContentAdapter = nil
+        guard let inlinePlayer else { return }
+        inlinePlayer.pause()
+        inlinePlayer.removeFromSuperview()
+        self.inlinePlayer = nil
+        trailerButton.isHidden = false
     }
 }
 
@@ -379,7 +521,7 @@ extension AnimeDetailViewController: YouTubeTrailerDelegate {
         print("[Trailer] YouTube ready")
     }
 
-    func youTubeTrailer(_ controller: YouTubeTrailerViewController, didChangeState state: VideoPlayerState) {
+    func youTubeTrailer(_ controller: YouTubeTrailerViewController, didChangeState state: YouTubeTrailerState) {
         print("[Trailer] YouTube state -> \(state)")
     }
 

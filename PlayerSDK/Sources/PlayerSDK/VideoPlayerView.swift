@@ -28,12 +28,23 @@ private final class PlayerLayerView: UIView {
     }
 }
 
-public final class VideoPlayerView: UIView {
+public final class VideoPlayerView: UIView, VideoPlaying {
 
     // MARK: - Public API
 
     /// Receives all player events. See ``VideoPlayerDelegate``.
     public weak var delegate: VideoPlayerDelegate?
+
+    /// Optional hook that can intercept seeks (e.g. to redirect to an ad break).
+    /// See ``VideoPlayerSeekCoordinator``.
+    public weak var seekCoordinator: VideoPlayerSeekCoordinator?
+
+    /// The current player item, exposed for stream-metrics collection.
+    public var currentItem: AVPlayerItem? { player.currentItem }
+
+    /// How the audio session is configured for playback. Injectable so the player
+    /// isn't hard-coupled to `AVAudioSession` (swap a no-op in tests).
+    public var audioSession: PlaybackAudioSession = AVPlaybackAudioSession()
 
     /// The current lifecycle state. Every change is also pushed to the delegate.
     public private(set) var state: VideoPlayerState = .idle {
@@ -71,6 +82,7 @@ public final class VideoPlayerView: UIView {
 
     private var controlsVisible = true
     private var hideControlsWorkItem: DispatchWorkItem?
+    private var isBuffering = false
 
     // Fullscreen bookkeeping
     public private(set) var isFullscreen = false
@@ -128,12 +140,8 @@ public final class VideoPlayerView: UIView {
         controls.setTitle(configuration.title)
 
         // Play audio even when the hardware mute switch is on (movie playback),
-        // otherwise trailers appear silent on a silenced device. Done off the main
-        // thread because `setActive` can briefly block.
-        DispatchQueue.global(qos: .userInitiated).async {
-            try? AVAudioSession.sharedInstance().setCategory(.playback, mode: .moviePlayback)
-            try? AVAudioSession.sharedInstance().setActive(true)
-        }
+        // otherwise trailers appear silent on a silenced device.
+        audioSession.activatePlayback()
 
         let item = AVPlayerItem(url: configuration.url)
         observeItem(item)
@@ -143,7 +151,7 @@ public final class VideoPlayerView: UIView {
 
         duration = 0
         state = .loading
-        controls.setBuffering(true)
+        updateBuffering(true)
     }
 
     // MARK: - Playback controls (public)
@@ -161,12 +169,38 @@ public final class VideoPlayerView: UIView {
         player.timeControlStatus == .paused ? play() : pause()
     }
 
-    /// Seeks to an absolute `time` (seconds), clamped to the item bounds.
-    public func seek(to time: TimeInterval) {
+    /// Seeks to an absolute `time` (seconds), clamped to the item bounds. Shows a
+    /// buffering spinner and holds the scrubber at the target until the seek lands,
+    /// so a slow seek reads as "loading" rather than a laggy, snapping thumb.
+    ///
+    /// When a ``seekCoordinator`` is set and `force` is `false`, the coordinator is
+    /// consulted first; if it declines, the direct seek is aborted (the coordinator
+    /// drives its own flow and may later re-call with `force: true`).
+    public func seek(to time: TimeInterval, force: Bool = false) {
         let target = VideoTime.clamp(time, duration: duration)
+
+        if !force, let seekCoordinator,
+           !seekCoordinator.videoPlayer(self, shouldPerformSeekTo: target) {
+            return
+        }
+
         let cmTime = CMTime(seconds: target, preferredTimescale: 600)
+
+        // Snap the thumb to the target first, then freeze updates so periodic
+        // progress can't yank it back to the pre-seek position mid-seek.
+        controls.setProgress(current: target, duration: duration)
+        controls.setSeeking(true)
+        updateBuffering(true)
+        delegate?.videoPlayer(self, willSeekTo: target)
+
         player.seek(to: cmTime, toleranceBefore: .zero, toleranceAfter: .zero) { [weak self] _ in
             guard let self else { return }
+            self.controls.setSeeking(false)
+            // Clear the spinner unless playback is still stalled waiting to resume;
+            // the timeControlStatus observer will manage buffering from here on.
+            if self.player.timeControlStatus != .waitingToPlayAtSpecifiedRate {
+                self.updateBuffering(false)
+            }
             self.delegate?.videoPlayer(self, didSeekTo: target)
         }
     }
@@ -181,6 +215,15 @@ public final class VideoPlayerView: UIView {
     public func skipBackward() {
         let offset = configuration?.skipInterval ?? 10
         seek(to: VideoTime.target(from: currentTime, offset: -offset, duration: duration))
+    }
+
+    /// Marks ad cue points (absolute times in seconds) on the scrubber. Seeds the
+    /// controls with the known duration so ticks appear immediately.
+    public func setCueMarkers(_ times: [TimeInterval]) {
+        controls.setCueMarkers(times)
+        if duration > 0 {
+            controls.setProgress(current: currentTime, duration: duration)
+        }
     }
 
     /// Sets the audio volume (`0...1`). Unmutes if currently muted.
@@ -295,14 +338,14 @@ public final class VideoPlayerView: UIView {
                     case .playing:
                         self.state = .playing
                         self.controls.setPlaying(true)
-                        self.controls.setBuffering(false)
+                        self.updateBuffering(false)
                         self.delegate?.videoPlayerDidPlay(self)
                     case .paused:
                         if self.state != .ended { self.state = .paused }
                         self.controls.setPlaying(false)
                         self.delegate?.videoPlayerDidPause(self)
                     case .waitingToPlayAtSpecifiedRate:
-                        self.controls.setBuffering(true)
+                        self.updateBuffering(true)
                     @unknown default:
                         break
                     }
@@ -327,13 +370,13 @@ public final class VideoPlayerView: UIView {
                     case .readyToPlay:
                         self.duration = itemDuration.isFinite ? itemDuration : 0
                         self.state = .readyToPlay
-                        self.controls.setBuffering(false)
+                        self.updateBuffering(false)
                         self.delegate?.videoPlayer(self, didBecomeReadyWithDuration: self.duration)
                         if self.configuration?.autoPlay == true { self.play() }
                     case .failed:
                         let reason = itemError?.localizedDescription ?? "Unknown playback error"
                         self.state = .failed(reason)
-                        self.controls.setBuffering(false)
+                        self.updateBuffering(false)
                         self.delegate?.videoPlayer(self, didFailWithError:
                             itemError ?? NSError(domain: "PlayerSDK", code: -1,
                                                   userInfo: [NSLocalizedDescriptionKey: reason]))
@@ -388,6 +431,17 @@ public final class VideoPlayerView: UIView {
     private func cancelControlsAutoHide() {
         hideControlsWorkItem?.cancel()
         hideControlsWorkItem = nil
+    }
+
+    // MARK: - Buffering
+
+    /// Updates the buffering spinner and notifies the delegate on transitions only
+    /// (so observers get one `true`/`false` per change, not per call site).
+    private func updateBuffering(_ buffering: Bool) {
+        controls.setBuffering(buffering)
+        guard buffering != isBuffering else { return }
+        isBuffering = buffering
+        delegate?.videoPlayer(self, didChangeBufferingState: buffering)
     }
 
     // MARK: - Helpers

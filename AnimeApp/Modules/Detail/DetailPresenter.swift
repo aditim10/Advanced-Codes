@@ -32,7 +32,7 @@ final class DetailPresenter: DetailPresentationLogic {
 
         let viewModel = Detail.ViewModel(
             title: anime.displayTitle,
-            score: "⭐ \(anime.scoreText)",
+            score: anime.scoreText,
             meta: meta,
             genres: anime.genreNames,
             synopsis: anime.synopsis ?? AppStrings.Detail.noSynopsis,

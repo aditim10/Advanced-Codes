@@ -8,20 +8,26 @@
 
 /* Begin PBXBuildFile section */
 		D20001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10001 /* AppDelegate.swift */; };
-		D20002 /* AnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10002 /* AnalyticsEvent.swift */; };
-		D20003 /* AnalyticsEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10003 /* AnalyticsEvents.swift */; };
-		D20004 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10004 /* AnalyticsManager.swift */; };
-		D20005 /* AnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10005 /* AnalyticsProvider.swift */; };
-		D20006 /* AmexPanelAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10006 /* AmexPanelAnalyticsProvider.swift */; };
+		EVB01 /* AppLifecycleEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EVF01 /* AppLifecycleEvent.swift */; };
+		EVB02 /* LoginAnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EVF02 /* LoginAnalyticsEvent.swift */; };
+		EVB03 /* HomeAnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EVF03 /* HomeAnalyticsEvent.swift */; };
+		EVB04 /* SearchAnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EVF04 /* SearchAnalyticsEvent.swift */; };
+		EVB05 /* SeeAllAnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EVF05 /* SeeAllAnalyticsEvent.swift */; };
+		EVB06 /* AdAnalyticsEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = EVF06 /* AdAnalyticsEvent.swift */; };
+		ADB01 /* AdLoggerBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF01 /* AdLoggerBridge.swift */; };
+		D20006 /* MixPanelAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10006 /* MixPanelAnalyticsProvider.swift */; };
 		D20007 /* ConsoleAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10007 /* ConsoleAnalyticsProvider.swift */; };
 		D20008 /* FirebaseAnalyticsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10008 /* FirebaseAnalyticsProvider.swift */; };
 		D20009 /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10009 /* APIConstants.swift */; };
 		D20010 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10010 /* AppConstants.swift */; };
-		D20011 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10011 /* ImageLoader.swift */; };
 		D20012 /* AppStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10012 /* AppStrings.swift */; };
 		D20013 /* AnimeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10013 /* AnimeModels.swift */; };
 		PKG0001 /* ConcurrentAPI in Frameworks */ = {isa = PBXBuildFile; productRef = PKG0002 /* ConcurrentAPI */; };
 		PKG0011 /* PlayerSDK in Frameworks */ = {isa = PBXBuildFile; productRef = PKG0012 /* PlayerSDK */; };
+		PKG0021 /* ImageLoaderKit in Frameworks */ = {isa = PBXBuildFile; productRef = PKG0022 /* ImageLoaderKit */; };
+		PKG0031 /* AnalyticsKit in Frameworks */ = {isa = PBXBuildFile; productRef = PKG0032 /* AnalyticsKit */; };
+		PKG0041 /* AnalyticsKit in Frameworks */ = {isa = PBXBuildFile; productRef = PKG0042 /* AnalyticsKit */; };
+		PKG0051 /* AdSDK in Frameworks */ = {isa = PBXBuildFile; productRef = PKG0052 /* AdSDK */; };
 		D20021 /* JikanResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10021 /* JikanResponses.swift */; };
 		D20022 /* AnimeRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10022 /* AnimeRequests.swift */; };
 		D20023 /* AnimeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10023 /* AnimeAPI.swift */; };
@@ -56,7 +62,9 @@
 		LROU2 /* LoginRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = LROU1 /* LoginRouter.swift */; };
 		LVIE2 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = LVIE1 /* LoginViewController.swift */; };
 		DVIE2 /* AnimeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DVIE1 /* AnimeDetailViewController.swift */; };
-		D20039 /* AnimationDemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10039 /* AnimationDemoViewController.swift */; };
+		DADP2 /* VideoPlayerAdContentAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADP1 /* VideoPlayerAdContentAdapter.swift */; };
+		YTVC2 /* YouTubeTrailerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = YTVC1 /* YouTubeTrailerViewController.swift */; };
+		TPVC2 /* TrailerPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = TPVC1 /* TrailerPlayerViewController.swift */; };
 		D20040 /* SharedCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10040 /* SharedCells.swift */; };
 		D20041 /* CharacterService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D10041 /* CharacterService.swift */; };
 		CDB1 /* CharacterDetailModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF1 /* CharacterDetailModels.swift */; };
@@ -101,16 +109,18 @@
 		AB000000 /* AnimeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB000014 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D10001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D10002 /* AnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvent.swift; sourceTree = "<group>"; };
-		D10003 /* AnalyticsEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvents.swift; sourceTree = "<group>"; };
-		D10004 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
-		D10005 /* AnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsProvider.swift; sourceTree = "<group>"; };
-		D10006 /* AmexPanelAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmexPanelAnalyticsProvider.swift; sourceTree = "<group>"; };
+		EVF01 /* AppLifecycleEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLifecycleEvent.swift; sourceTree = "<group>"; };
+		EVF02 /* LoginAnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAnalyticsEvent.swift; sourceTree = "<group>"; };
+		EVF03 /* HomeAnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeAnalyticsEvent.swift; sourceTree = "<group>"; };
+		EVF04 /* SearchAnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAnalyticsEvent.swift; sourceTree = "<group>"; };
+		EVF05 /* SeeAllAnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeeAllAnalyticsEvent.swift; sourceTree = "<group>"; };
+		EVF06 /* AdAnalyticsEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdAnalyticsEvent.swift; sourceTree = "<group>"; };
+		ADF01 /* AdLoggerBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdLoggerBridge.swift; sourceTree = "<group>"; };
+		D10006 /* MixPanelAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixPanelAnalyticsProvider.swift; sourceTree = "<group>"; };
 		D10007 /* ConsoleAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsoleAnalyticsProvider.swift; sourceTree = "<group>"; };
 		D10008 /* FirebaseAnalyticsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAnalyticsProvider.swift; sourceTree = "<group>"; };
 		D10009 /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		D10010 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
-		D10011 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		D10012 /* AppStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStrings.swift; sourceTree = "<group>"; };
 		D10013 /* AnimeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeModels.swift; sourceTree = "<group>"; };
 		D10021 /* JikanResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JikanResponses.swift; sourceTree = "<group>"; };
@@ -127,6 +137,9 @@
 		DPRE1 /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
 		DROU1 /* DetailRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRouter.swift; sourceTree = "<group>"; };
 		DVIE1 /* AnimeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimeDetailViewController.swift; sourceTree = "<group>"; };
+		DADP1 /* VideoPlayerAdContentAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerAdContentAdapter.swift; sourceTree = "<group>"; };
+		YTVC1 /* YouTubeTrailerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeTrailerViewController.swift; sourceTree = "<group>"; };
+		TPVC1 /* TrailerPlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrailerPlayerViewController.swift; sourceTree = "<group>"; };
 		LMOD1 /* LoginModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModels.swift; sourceTree = "<group>"; };
 		LINT1 /* LoginInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInteractor.swift; sourceTree = "<group>"; };
 		LPRE1 /* LoginPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPresenter.swift; sourceTree = "<group>"; };
@@ -147,7 +160,6 @@
 		HPRE1 /* HomePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenter.swift; sourceTree = "<group>"; };
 		HROU1 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		HVIE1 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		D10039 /* AnimationDemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationDemoViewController.swift; sourceTree = "<group>"; };
 		D10040 /* SharedCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedCells.swift; sourceTree = "<group>"; };
 		D10041 /* CharacterService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterService.swift; sourceTree = "<group>"; };
 		CDF1 /* CharacterDetailModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterDetailModels.swift; sourceTree = "<group>"; };
@@ -186,6 +198,9 @@
 			files = (
 				PKG0001 /* ConcurrentAPI in Frameworks */,
 				PKG0011 /* PlayerSDK in Frameworks */,
+				PKG0021 /* ImageLoaderKit in Frameworks */,
+				PKG0031 /* AnalyticsKit in Frameworks */,
+				PKG0051 /* AdSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -193,6 +208,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				PKG0041 /* AnalyticsKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,6 +235,7 @@
 				G30005 /* Networking */,
 				G30006 /* Services */,
 				G30007 /* Theme */,
+				G30030 /* Player */,
 				G40000 /* Modules */,
 				G30009 /* Views */,
 				G30010 /* Resources */,
@@ -239,13 +256,24 @@
 		G30001 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
-				D10002 /* AnalyticsEvent.swift */,
-				D10003 /* AnalyticsEvents.swift */,
-				D10004 /* AnalyticsManager.swift */,
-				D10005 /* AnalyticsProvider.swift */,
+				G30020 /* Events */,
 				G30011 /* Providers */,
+				ADF01 /* AdLoggerBridge.swift */,
 			);
 			path = Analytics;
+			sourceTree = "<group>";
+		};
+		G30020 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				EVF01 /* AppLifecycleEvent.swift */,
+				EVF02 /* LoginAnalyticsEvent.swift */,
+				EVF03 /* HomeAnalyticsEvent.swift */,
+				EVF04 /* SearchAnalyticsEvent.swift */,
+				EVF05 /* SeeAllAnalyticsEvent.swift */,
+				EVF06 /* AdAnalyticsEvent.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 		G30002 /* Constants */ = {
@@ -260,7 +288,6 @@
 		G30003 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				D10011 /* ImageLoader.swift */,
 				G30012 /* Localization */,
 			);
 			path = Helpers;
@@ -303,6 +330,15 @@
 				D10029 /* ThemeManager.swift */,
 			);
 			path = Theme;
+			sourceTree = "<group>";
+		};
+		G30030 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				YTVC1 /* YouTubeTrailerViewController.swift */,
+				TPVC1 /* TrailerPlayerViewController.swift */,
+			);
+			path = Player;
 			sourceTree = "<group>";
 		};
 		G40000 /* Modules */ = {
@@ -350,6 +386,7 @@
 				DPRE1 /* DetailPresenter.swift */,
 				DROU1 /* DetailRouter.swift */,
 				DVIE1 /* AnimeDetailViewController.swift */,
+				DADP1 /* VideoPlayerAdContentAdapter.swift */,
 			);
 			path = Detail;
 			sourceTree = "<group>";
@@ -393,7 +430,6 @@
 		G30009 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				D10039 /* AnimationDemoViewController.swift */,
 				G30016 /* Cells */,
 			);
 			path = Views;
@@ -413,7 +449,7 @@
 		G30011 /* Providers */ = {
 			isa = PBXGroup;
 			children = (
-				D10006 /* AmexPanelAnalyticsProvider.swift */,
+				D10006 /* MixPanelAnalyticsProvider.swift */,
 				D10007 /* ConsoleAnalyticsProvider.swift */,
 				D10008 /* FirebaseAnalyticsProvider.swift */,
 			);
@@ -456,21 +492,85 @@
 			isa = PBXGroup;
 			children = (
 				T10001 /* TestSupport.swift */,
-				T10002 /* AnalyticsManagerTests.swift */,
-				T10003 /* HomeInteractorTests.swift */,
-				T10004 /* SearchInteractorTests.swift */,
-				T10005 /* SeeAllInteractorTests.swift */,
-				T10006 /* LoginInteractorTests.swift */,
-				T10007 /* DetailInteractorTests.swift */,
-				T10008 /* HomePresenterTests.swift */,
-				T10009 /* DetailPresenterTests.swift */,
-				T10010 /* SearchPresenterTests.swift */,
-				T10011 /* SeeAllPresenterTests.swift */,
-				T10012 /* LoginPresenterTests.swift */,
-				T10013 /* JSONFixtureDecodingTests.swift */,
+				TGA01 /* Analytics */,
+				TGM00 /* Modules */,
+				TGN01 /* Networking */,
 				TGF001 /* Fixtures */,
 			);
 			path = AnimeAppTests;
+			sourceTree = "<group>";
+		};
+		TGA01 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				T10002 /* AnalyticsManagerTests.swift */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		TGM00 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				TGMH /* Home */,
+				TGML /* Login */,
+				TGMD /* Detail */,
+				TGMS /* Search */,
+				TGMSA /* SeeAll */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		TGMH /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				T10003 /* HomeInteractorTests.swift */,
+				T10008 /* HomePresenterTests.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		TGML /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				T10006 /* LoginInteractorTests.swift */,
+				T10012 /* LoginPresenterTests.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		TGMD /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				T10007 /* DetailInteractorTests.swift */,
+				T10009 /* DetailPresenterTests.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		TGMS /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				T10004 /* SearchInteractorTests.swift */,
+				T10010 /* SearchPresenterTests.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		TGMSA /* SeeAll */ = {
+			isa = PBXGroup;
+			children = (
+				T10005 /* SeeAllInteractorTests.swift */,
+				T10011 /* SeeAllPresenterTests.swift */,
+			);
+			path = SeeAll;
+			sourceTree = "<group>";
+		};
+		TGN01 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				T10013 /* JSONFixtureDecodingTests.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		TGF001 /* Fixtures */ = {
@@ -503,6 +603,9 @@
 			packageProductDependencies = (
 				PKG0002 /* ConcurrentAPI */,
 				PKG0012 /* PlayerSDK */,
+				PKG0022 /* ImageLoaderKit */,
+				PKG0032 /* AnalyticsKit */,
+				PKG0052 /* AdSDK */,
 			);
 			productName = AnimeApp;
 			productReference = AB000000 /* AnimeApp.app */;
@@ -522,6 +625,9 @@
 				TD0000 /* PBXTargetDependency */,
 			);
 			name = AnimeAppTests;
+			packageProductDependencies = (
+				PKG0042 /* AnalyticsKit */,
+			);
 			productName = AnimeAppTests;
 			productReference = TB00000 /* AnimeAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -557,6 +663,9 @@
 			packageReferences = (
 				3F10CFB12FD81CFB00BFC5A0 /* XCRemoteSwiftPackageReference "Advanced-Codes" */,
 				PKGL010 /* XCLocalSwiftPackageReference "PlayerSDK" */,
+				PKGL020 /* XCLocalSwiftPackageReference "ImageLoaderKit" */,
+				PKGL030 /* XCLocalSwiftPackageReference "AnalyticsKit" */,
+				PKGL050 /* XCLocalSwiftPackageReference "AdSDK" */,
 			);
 			productRefGroup = AC000000 /* Products */;
 			projectDirPath = "";
@@ -599,16 +708,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				D20001 /* AppDelegate.swift in Sources */,
-				D20002 /* AnalyticsEvent.swift in Sources */,
-				D20003 /* AnalyticsEvents.swift in Sources */,
-				D20004 /* AnalyticsManager.swift in Sources */,
-				D20005 /* AnalyticsProvider.swift in Sources */,
-				D20006 /* AmexPanelAnalyticsProvider.swift in Sources */,
+				EVB01 /* AppLifecycleEvent.swift in Sources */,
+				EVB02 /* LoginAnalyticsEvent.swift in Sources */,
+				EVB03 /* HomeAnalyticsEvent.swift in Sources */,
+				EVB04 /* SearchAnalyticsEvent.swift in Sources */,
+				EVB05 /* SeeAllAnalyticsEvent.swift in Sources */,
+				EVB06 /* AdAnalyticsEvent.swift in Sources */,
+				ADB01 /* AdLoggerBridge.swift in Sources */,
+				D20006 /* MixPanelAnalyticsProvider.swift in Sources */,
 				D20007 /* ConsoleAnalyticsProvider.swift in Sources */,
 				D20008 /* FirebaseAnalyticsProvider.swift in Sources */,
 				D20009 /* APIConstants.swift in Sources */,
 				D20010 /* AppConstants.swift in Sources */,
-				D20011 /* ImageLoader.swift in Sources */,
 				D20012 /* AppStrings.swift in Sources */,
 				D20013 /* AnimeModels.swift in Sources */,
 				D20021 /* JikanResponses.swift in Sources */,
@@ -626,6 +737,9 @@
 				DPRE2 /* DetailPresenter.swift in Sources */,
 				DROU2 /* DetailRouter.swift in Sources */,
 				DVIE2 /* AnimeDetailViewController.swift in Sources */,
+				DADP2 /* VideoPlayerAdContentAdapter.swift in Sources */,
+				YTVC2 /* YouTubeTrailerViewController.swift in Sources */,
+				TPVC2 /* TrailerPlayerViewController.swift in Sources */,
 				CDB1 /* CharacterDetailModels.swift in Sources */,
 				CDB2 /* CharacterDetailInteractor.swift in Sources */,
 				CDB3 /* CharacterDetailPresenter.swift in Sources */,
@@ -651,7 +765,6 @@
 				LPRE2 /* LoginPresenter.swift in Sources */,
 				LROU2 /* LoginRouter.swift in Sources */,
 				LVIE2 /* LoginViewController.swift in Sources */,
-				D20039 /* AnimationDemoViewController.swift in Sources */,
 				D20040 /* SharedCells.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -939,6 +1052,18 @@
 			isa = XCLocalSwiftPackageReference;
 			relativePath = PlayerSDK;
 		};
+		PKGL020 /* XCLocalSwiftPackageReference "ImageLoaderKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ImageLoaderKit;
+		};
+		PKGL030 /* XCLocalSwiftPackageReference "AnalyticsKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = AnalyticsKit;
+		};
+		PKGL050 /* XCLocalSwiftPackageReference "AdSDK" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = AdSDK;
+		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -951,6 +1076,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = PKGL010 /* XCLocalSwiftPackageReference "PlayerSDK" */;
 			productName = PlayerSDK;
+		};
+		PKG0022 /* ImageLoaderKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = PKGL020 /* XCLocalSwiftPackageReference "ImageLoaderKit" */;
+			productName = ImageLoaderKit;
+		};
+		PKG0032 /* AnalyticsKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = PKGL030 /* XCLocalSwiftPackageReference "AnalyticsKit" */;
+			productName = AnalyticsKit;
+		};
+		PKG0042 /* AnalyticsKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = PKGL030 /* XCLocalSwiftPackageReference "AnalyticsKit" */;
+			productName = AnalyticsKit;
+		};
+		PKG0052 /* AdSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = PKGL050 /* XCLocalSwiftPackageReference "AdSDK" */;
+			productName = AdSDK;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

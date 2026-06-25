@@ -1,0 +1,15 @@
+{
+  "originHash" : "9fd171d9faf9ab5b6c5b954f745440b3092423f86fcf87741c642e9da12528a3",
+  "pins" : [
+    {
+      "identity" : "advanced-codes",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/aditim10/Advanced-Codes",
+      "state" : {
+        "revision" : "665d3663dfdc736046b6448aafe1971cff4153bf",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

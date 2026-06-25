@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SampleVAST.xml
+
+  A standalone VAST document exercising both ad kinds:
+    - an InLine linear ad with an HLS MediaFile, full tracking, and VideoClicks
+    - a Wrapper ad (VASTAdTagURI) carrying wrapper-level impression + tracking
+      that a resolver must merge into the inline ad it redirects to
+
+  Used by the AdSDK parser tests and as a reference creative.
+-->
+<VAST version="4.0">
+  <Ad id="inline-ad" sequence="1">
+    <InLine>
+      <AdSystem version="2.0">AdSDK Sample</AdSystem>
+      <AdTitle>Standalone Sample Ad</AdTitle>
+      <Impression><![CDATA[https://example.com/track/imp/inline]]></Impression>
+      <Error><![CDATA[https://example.com/track/error/inline]]></Error>
+      <Creatives>
+        <Creative id="inline-creative">
+          <Linear skipoffset="00:00:05">
+            <Duration>00:00:15</Duration>
+            <TrackingEvents>
+              <Tracking event="creativeView"><![CDATA[https://example.com/track/creativeView/inline]]></Tracking>
+              <Tracking event="start"><![CDATA[https://example.com/track/start/inline]]></Tracking>
+              <Tracking event="firstQuartile"><![CDATA[https://example.com/track/q1/inline]]></Tracking>
+              <Tracking event="midpoint"><![CDATA[https://example.com/track/mid/inline]]></Tracking>
+              <Tracking event="thirdQuartile"><![CDATA[https://example.com/track/q3/inline]]></Tracking>
+              <Tracking event="complete"><![CDATA[https://example.com/track/complete/inline]]></Tracking>
+              <Tracking event="skip"><![CDATA[https://example.com/track/skip/inline]]></Tracking>
+              <Tracking event="progress" offset="00:00:03"><![CDATA[https://example.com/track/progress3/inline]]></Tracking>
+            </TrackingEvents>
+            <MediaFiles>
+              <MediaFile delivery="streaming" type="application/x-mpegURL" width="1280" height="720" bitrate="2000">
+                <![CDATA[https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8]]>
+              </MediaFile>
+              <MediaFile delivery="progressive" type="video/mp4" width="640" height="360" bitrate="800">
+                <![CDATA[https://example.com/creative/inline-640.mp4]]>
+              </MediaFile>
+            </MediaFiles>
+            <VideoClicks>
+              <ClickThrough><![CDATA[https://example.com/landing/inline]]></ClickThrough>
+              <ClickTracking><![CDATA[https://example.com/track/click/inline]]></ClickTracking>
+            </VideoClicks>
+          </Linear>
+        </Creative>
+      </Creatives>
+    </InLine>
+  </Ad>
+  <Ad id="wrapper-ad" sequence="2">
+    <Wrapper followAdditionalWrappers="true" allowMultipleAds="true">
+      <AdSystem>AdSDK Sample</AdSystem>
+      <VASTAdTagURI><![CDATA[https://example.com/vast/redirect.xml]]></VASTAdTagURI>
+      <Impression><![CDATA[https://example.com/track/imp/wrapper]]></Impression>
+      <Error><![CDATA[https://example.com/track/error/wrapper]]></Error>
+      <Creatives>
+        <Creative>
+          <Linear>
+            <TrackingEvents>
+              <Tracking event="start"><![CDATA[https://example.com/track/start/wrapper]]></Tracking>
+              <Tracking event="complete"><![CDATA[https://example.com/track/complete/wrapper]]></Tracking>
+            </TrackingEvents>
+            <VideoClicks>
+              <ClickTracking><![CDATA[https://example.com/track/click/wrapper]]></ClickTracking>
+            </VideoClicks>
+          </Linear>
+        </Creative>
+      </Creatives>
+    </Wrapper>
+  </Ad>
+</VAST>

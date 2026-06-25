@@ -1,4 +1,33 @@
 import UIKit
+import ImageLoaderKit
+
+// MARK: - RatingBadge
+
+/// Builds a "★ 8.6" score line where the star is a solid, tinted `star.fill`
+/// SF Symbol rather than the multicolour ⭐ emoji (which renders faintly and
+/// inconsistently over posters / gradients). The star is tinted to match the
+/// score colour so the rating reads as one cohesive badge.
+enum RatingBadge {
+    static func attributed(_ score: String, color: UIColor, fontSize: CGFloat) -> NSAttributedString {
+        let font = UIFont.systemFont(ofSize: fontSize, weight: .semibold)
+        let result = NSMutableAttributedString()
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: fontSize, weight: .semibold)
+        if let star = UIImage(systemName: "star.fill", withConfiguration: symbolConfig)?
+            .withTintColor(color, renderingMode: .alwaysOriginal) {
+            let attachment = NSTextAttachment(image: star)
+            let size = star.size
+            attachment.bounds = CGRect(x: 0,
+                                       y: (font.capHeight - size.height) / 2,
+                                       width: size.width,
+                                       height: size.height)
+            result.append(NSAttributedString(attachment: attachment))
+            result.append(NSAttributedString(string: " "))
+        }
+        result.append(NSAttributedString(string: score,
+                                         attributes: [.foregroundColor: color, .font: font]))
+        return result
+    }
+}
 
 // MARK: - AnimeCardDisplaying
 
@@ -41,7 +70,7 @@ final class BannerView: UIView {
     /// Fired with the tapped item's id (e.g. MyAnimeList id).
     var onSelect: ((Int) -> Void)?
     private var items: [AnimeCardDisplaying] = []
-    private var currentIndex   = 0
+    private var currentIndex = 0
     private var autoScrollTimer: Timer?
 
     /// `true` until the first batch of banners has been supplied.
@@ -49,13 +78,13 @@ final class BannerView: UIView {
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection         = .horizontal
+        layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing      = 0
+        layout.minimumLineSpacing = 0
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        cv.backgroundColor               = .clear
+        cv.backgroundColor = .clear
         cv.showsHorizontalScrollIndicator = false
-        cv.isPagingEnabled               = true
+        cv.isPagingEnabled = true
         cv.register(BannerCell.self, forCellWithReuseIdentifier: BannerCell.id)
         cv.dataSource = self; cv.delegate = self
         cv.translatesAutoresizingMaskIntoConstraints = false
@@ -76,8 +105,6 @@ final class BannerView: UIView {
         return v
     }()
 
-    private let gradientOverlay = CAGradientLayer()
-
     override init(frame: CGRect) { super.init(frame: frame); setup() }
     required init?(coder: NSCoder) { super.init(coder: coder); setup() }
 
@@ -92,13 +119,12 @@ final class BannerView: UIView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageControl.centerXAnchor.constraint(equalTo: centerXAnchor),
-            pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -14),
+            pageControl.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
             placeholderView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
             placeholderView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             placeholderView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             placeholderView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -60),
         ])
-        layer.addSublayer(gradientOverlay)
         startPlaceholderShimmer()
         applyTheme()
         NotificationCenter.default.addObserver(
@@ -118,11 +144,7 @@ final class BannerView: UIView {
         backgroundColor = theme.background
         placeholderView.backgroundColor = theme.shimmerColor
         pageControl.currentPageIndicatorTintColor = theme.accentPrimary
-        pageControl.pageIndicatorTintColor        = theme.accentPrimary.withAlphaComponent(0.25)
-        gradientOverlay.colors   = [UIColor.clear.cgColor,
-                                     theme.background.withAlphaComponent(0.5).cgColor,
-                                     theme.background.cgColor]
-        gradientOverlay.locations = [0.5, 0.82, 1.0]
+        pageControl.pageIndicatorTintColor = theme.accentPrimary.withAlphaComponent(0.25)
         collectionView.reloadData()
     }
 
@@ -135,7 +157,6 @@ final class BannerView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        gradientOverlay.frame = bounds
         (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.itemSize = bounds.size
     }
 
@@ -200,7 +221,7 @@ final class BannerCell: UICollectionViewCell {
         let blur = UIBlurEffect(style: .systemThinMaterialDark)
         let v = UIVisualEffectView(effect: blur)
         v.layer.cornerRadius = 14
-        v.clipsToBounds      = true
+        v.clipsToBounds = true
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
@@ -224,6 +245,10 @@ final class BannerCell: UICollectionViewCell {
 
     private var imageTask: Task<Void, Never>?
 
+    /// Gold used for both the star glyph and the score digits so the rating reads
+    /// as one solid badge over any poster.
+    private static let scoreColor = UIColor(red: 1.00, green: 0.82, blue: 0.30, alpha: 1)
+
     override init(frame: CGRect) { super.init(frame: frame); setup() }
     required init?(coder: NSCoder) { fatalError() }
 
@@ -246,7 +271,11 @@ final class BannerCell: UICollectionViewCell {
 
             infoBlur.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             infoBlur.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            infoBlur.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            // Pin the caption fully *inside* the poster (12pt above its bottom). The
+            // panel is intentionally always-dark, so any part hanging below the poster
+            // would float as a black box on the page background — fine in dark theme
+            // but jarring in light theme. Keeping it on the poster looks good in both.
+            infoBlur.bottomAnchor.constraint(equalTo: imageView.bottomAnchor, constant: -12),
             infoBlur.heightAnchor.constraint(equalToConstant: 60),
 
             titleLabel.topAnchor.constraint(equalTo: infoBlur.contentView.topAnchor, constant: 8),
@@ -271,22 +300,22 @@ final class BannerCell: UICollectionViewCell {
 
     private func applyTheme() {
         let theme = ThemeManager.shared.current
-        backgroundColor        = theme.background
+        backgroundColor = theme.background
         // Caption sits on a dark glass panel — keep text light in both themes,
         // with a subtle shadow for guaranteed legibility over any poster.
-        titleLabel.textColor   = .white
-        metaLabel.textColor    = UIColor.white.withAlphaComponent(0.9)
-        scoreLabel.textColor   = UIColor(red: 1.00, green: 0.82, blue: 0.30, alpha: 1)
+        titleLabel.textColor = .white
+        metaLabel.textColor = UIColor.white.withAlphaComponent(0.9)
+        scoreLabel.textColor = Self.scoreColor
         [titleLabel, metaLabel, scoreLabel].forEach {
-            $0.shadowColor  = UIColor.black.withAlphaComponent(0.55)
+            $0.shadowColor = UIColor.black.withAlphaComponent(0.55)
             $0.shadowOffset = CGSize(width: 0, height: 1)
         }
     }
 
     func configure(with item: AnimeCardDisplaying) {
         titleLabel.text = item.cardTitle
-        metaLabel.text  = item.cardMeta
-        scoreLabel.text = "⭐ \(item.cardScore)"
+        metaLabel.text = item.cardMeta
+        scoreLabel.attributedText = RatingBadge.attributed(item.cardScore, color: Self.scoreColor, fontSize: 12)
         imageView.image = nil; imageTask?.cancel()
         if let url = item.cardPosterURL {
             imageTask = Task {
@@ -336,11 +365,11 @@ final class SectionRowCell: UITableViewCell {
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection         = .horizontal
+        layout.scrollDirection = .horizontal
         // Item size comes from the flow-layout delegate (adaptive per size class);
         // estimatedItemSize stays default so `sizeForItemAt` is authoritative.
         layout.minimumInteritemSpacing = 10
-        layout.sectionInset            = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear
         cv.showsHorizontalScrollIndicator = false
@@ -472,8 +501,8 @@ final class AnimeCardCell: UICollectionViewCell {
         let v = UIView()
         v.layer.cornerRadius = 14
         v.layer.shadowOpacity = 1
-        v.layer.shadowRadius  = 8
-        v.layer.shadowOffset  = CGSize(width: 0, height: 4)
+        v.layer.shadowRadius = 8
+        v.layer.shadowOffset = CGSize(width: 0, height: 4)
         v.translatesAutoresizingMaskIntoConstraints = false; return v
     }()
 
@@ -488,6 +517,10 @@ final class AnimeCardCell: UICollectionViewCell {
     }
 
     private var imageTask: Task<Void, Never>?
+
+    /// Raw score string, kept so the tinted star badge can be rebuilt when the
+    /// theme (and therefore the amber colour) changes.
+    private var scoreValue: String?
 
     override init(frame: CGRect) { super.init(frame: frame); setup() }
     required init?(coder: NSCoder) { fatalError() }
@@ -531,15 +564,23 @@ final class AnimeCardCell: UICollectionViewCell {
     private func applyTheme() {
         let theme = ThemeManager.shared.current
         imageView.backgroundColor = theme.shimmerColor
-        card.backgroundColor      = theme.cardBackground
-        card.layer.shadowColor    = theme.accentPrimary.withAlphaComponent(0.14).cgColor
-        titleLabel.textColor      = theme.bodyText
-        scoreLabel.textColor      = theme.amberScore
+        card.backgroundColor = theme.cardBackground
+        card.layer.shadowColor = theme.accentPrimary.withAlphaComponent(0.14).cgColor
+        titleLabel.textColor = theme.bodyText
+        scoreLabel.textColor = theme.amberScore
+        refreshScore()
+    }
+
+    private func refreshScore() {
+        guard let scoreValue else { return }
+        scoreLabel.attributedText = RatingBadge.attributed(
+            scoreValue, color: ThemeManager.shared.current.amberScore, fontSize: 10)
     }
 
     func configure(with item: AnimeCardDisplaying) {
         titleLabel.text = item.cardTitle
-        scoreLabel.text = "⭐ \(item.cardScore)"
+        scoreValue = item.cardScore
+        refreshScore()
         imageView.image = nil; imageTask?.cancel()
         if let url = item.cardPosterURL {
             imageTask = Task {
@@ -565,7 +606,7 @@ final class CharacterCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill; iv.clipsToBounds = true
         iv.layer.cornerRadius = 32
-        iv.layer.borderWidth  = 2
+        iv.layer.borderWidth = 2
         iv.translatesAutoresizingMaskIntoConstraints = false; return iv
     }()
     private let nameLabel: UILabel = {
@@ -583,7 +624,7 @@ final class CharacterCell: UICollectionViewCell {
         super.init(frame: frame)
         [imageView, nameLabel].forEach { contentView.addSubview($0) }
         let diameter = Layout.characterAvatarDiameter(for: traitCollection)
-        let widthC  = imageView.widthAnchor.constraint(equalToConstant: diameter)
+        let widthC = imageView.widthAnchor.constraint(equalToConstant: diameter)
         let heightC = imageView.heightAnchor.constraint(equalToConstant: diameter)
         avatarDimensionConstraints = [widthC, heightC]
         imageView.layer.cornerRadius = diameter / 2
@@ -616,9 +657,9 @@ final class CharacterCell: UICollectionViewCell {
 
     private func applyTheme() {
         let theme = ThemeManager.shared.current
-        imageView.backgroundColor  = theme.shimmerColor
+        imageView.backgroundColor = theme.shimmerColor
         imageView.layer.borderColor = theme.accentPrimary.withAlphaComponent(0.3).cgColor
-        nameLabel.textColor         = theme.secondaryText
+        nameLabel.textColor = theme.secondaryText
     }
 
     func configure(with item: CharacterDisplaying) {

@@ -14,6 +14,12 @@ enum StorageKey {
     static let themeMode = "themeMode"
     /// Email of the logged-in user (also used as the "is logged in" flag).
     static let loggedInEmail = "loggedInEmail"
+    /// Display name the user entered at sign-in.
+    static let userName = "userName"
+    /// Stable, anonymous identifier sent to analytics in place of PII.
+    static let analyticsUserID = "analyticsUserID"
+    /// The viewer's chosen ad tier (ad-free / ad-lite / ad-supported).
+    static let adTier = "adTier"
 }
 
 // MARK: - StoryboardID
@@ -31,7 +37,6 @@ enum StoryboardID {
 /// Storyboard segue identifiers.
 enum SegueID {
     static let showDetail = "showDetail"
-    static let showDemo = "showDemo"
 }
 
 // MARK: - Layout

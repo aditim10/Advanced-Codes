@@ -5,6 +5,7 @@
 //
 
 import Foundation
+import AnalyticsKit
 
 final class ConsoleAnalyticsProvider: AnalyticsProvider {
 

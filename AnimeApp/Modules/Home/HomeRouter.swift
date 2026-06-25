@@ -9,13 +9,13 @@
 //
 
 import UIKit
+import AdSDK
 
 @MainActor
 protocol HomeRoutingLogic {
     func routeToDetail(animeID: Int)
     func routeToSeeAll(genreID: Int)
     func routeToSearch()
-    func routeToDemo()
     func presentProfileMenu(from sender: UIButton)
 }
 
@@ -51,23 +51,21 @@ final class HomeRouter: HomeRoutingLogic, HomeDataPassing {
         viewController?.navigationController?.pushViewController(SearchViewController(), animated: true)
     }
 
-    func routeToDemo() {
-        viewController?.performSegue(withIdentifier: SegueID.showDemo, sender: nil)
-    }
-
     // MARK: - Profile / theme menu
 
     func presentProfileMenu(from sender: UIButton) {
         guard let viewController else { return }
-        let email = Session.email ?? "user"
-        let sheet = UIAlertController(title: "👤 \(email)", message: nil, preferredStyle: .actionSheet)
+        let sheet = UIAlertController(
+            title: "👤 \(Session.displayName)",
+            message: Session.email,
+            preferredStyle: .actionSheet)
         sheet.popoverPresentationController?.sourceView = sender
 
         sheet.addAction(UIAlertAction(title: "🎨 Change Theme", style: .default) { [weak self] _ in
             self?.presentThemePicker(from: sender)
         })
-        sheet.addAction(UIAlertAction(title: "🎬 Animation Demo", style: .default) { [weak self] _ in
-            self?.routeToDemo()
+        sheet.addAction(UIAlertAction(title: "📺 Ad Preferences", style: .default) { [weak self] _ in
+            self?.presentAdTierPicker(from: sender)
         })
         sheet.addAction(UIAlertAction(title: "Sign Out", style: .destructive) { _ in
             Session.logout()
@@ -87,6 +85,30 @@ final class HomeRouter: HomeRoutingLogic, HomeDataPassing {
                 ThemeManager.shared.setMode(mode)
                 SceneDelegate.shared?.applyThemeStyle()
                 viewController?.refreshTheme()
+            })
+        }
+        picker.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        if let pop = picker.popoverPresentationController {
+            pop.sourceView = sender
+            pop.sourceRect = sender.bounds
+        }
+        viewController.present(picker, animated: true)
+    }
+
+    /// Lets the viewer pick their advertising tier (persisted to `Session`). The
+    /// choice takes effect the next time the custom player opens.
+    private func presentAdTierPicker(from sender: UIButton) {
+        guard let viewController else { return }
+        let picker = UIAlertController(
+            title: AppStrings.Ads.preferencesTitle,
+            message: AppStrings.Ads.preferencesMessage,
+            preferredStyle: .actionSheet)
+        for tier in AdTier.allCases {
+            let isCurrent = tier == Session.adTier
+            let label = AppStrings.Ads.tierName(tier)
+            let title = isCurrent ? "✓ \(label)" : label
+            picker.addAction(UIAlertAction(title: title, style: .default) { _ in
+                Session.adTier = tier
             })
         }
         picker.addAction(UIAlertAction(title: "Cancel", style: .cancel))

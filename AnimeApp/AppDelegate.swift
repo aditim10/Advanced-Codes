@@ -1,14 +1,22 @@
 //  AppDelegate.swift
 
 import UIKit
+import AnalyticsKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Wire up analytics providers and fire the app-launch event.
-        AnalyticsManager.shared.bootstrap()
+        // Wire up the client-specific analytics providers and fire the app-launch
+        // event. Providers live in the app; the bus (AnalyticsKit) stays vendor-agnostic.
+        AnalyticsManager.shared.bootstrap(
+            [
+                ConsoleAnalyticsProvider(),
+                MixPanelAnalyticsProvider(),
+                FirebaseAnalyticsProvider(),
+            ],
+            launchEvent: AppLifecycleEvent.appLaunch)
 
         // Apply the current theme to the global navigation-bar appearance, and
         // keep it in sync whenever the theme (or system appearance) changes.

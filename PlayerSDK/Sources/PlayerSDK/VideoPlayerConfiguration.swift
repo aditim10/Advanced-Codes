@@ -10,8 +10,8 @@
 import UIKit
 
 /// Everything the player needs to start: the media URL plus behaviour/appearance
-/// options. Build one and pass it to `VideoPlayerView.load(_:)` or
-/// `TrailerPlayerViewController(configuration:)`.
+/// options. Build one and pass it to `VideoPlayerView.load(_:)` (or any
+/// `VideoPlaying` conformer).
 public struct VideoPlayerConfiguration {
 
     /// The media URL.

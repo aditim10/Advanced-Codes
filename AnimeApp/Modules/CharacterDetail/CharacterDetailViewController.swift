@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import ImageLoaderKit
 
 @MainActor
 protocol CharacterDetailDisplayLogic: AnyObject {
@@ -39,8 +40,13 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
     private let nicknamesLabel = UILabel()
     private let aboutTitleLabel = UILabel()
     private let aboutLabel = UILabel()
+    private let aboutToggleButton = UIButton(type: .system)
     private let voiceActorsTitleLabel = UILabel()
     private let voiceActorsStack = UIStackView()
+
+    /// "Read more / Read less" state for the (often very long) biography.
+    private var isAboutExpanded = false
+    private let collapsedAboutLines = 6
 
     private var portraitImageTask: Task<Void, Never>?
 
@@ -93,8 +99,23 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
         ThemeManager.shared.current.statusBarStyle
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        updateAboutReadMoreVisibility()
+    }
+
     // MARK: - Build UI
     private func buildUI() {
+        configureScrollView()
+        configurePortrait()
+        configureLabels()
+        configureVoiceActors()
+        assembleContentStack()
+        configureLoadingIndicator()
+        activateConstraints()
+    }
+
+    private func configureScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.alwaysBounceVertical = true
         view.addSubview(scrollView)
@@ -104,7 +125,9 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
         contentStack.alignment = .fill
         contentStack.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentStack)
+    }
 
+    private func configurePortrait() {
         // Portrait, centered in a full-width container.
         portraitImageView.contentMode = .scaleAspectFill
         portraitImageView.clipsToBounds = true
@@ -112,7 +135,9 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
         portraitImageView.translatesAutoresizingMaskIntoConstraints = false
         portraitContainer.translatesAutoresizingMaskIntoConstraints = false
         portraitContainer.addSubview(portraitImageView)
+    }
 
+    private func configureLabels() {
         nameLabel.font = .systemFont(ofSize: 26, weight: .bold)
         nameLabel.numberOfLines = 0
         nameLabel.textAlignment = .center
@@ -132,15 +157,25 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
         aboutTitleLabel.text = AppStrings.Character.about
 
         aboutLabel.font = .systemFont(ofSize: 14)
-        aboutLabel.numberOfLines = 0
+        aboutLabel.numberOfLines = collapsedAboutLines
+
+        aboutToggleButton.setTitle(AppStrings.Detail.readMore, for: .normal)
+        aboutToggleButton.titleLabel?.font = .systemFont(ofSize: 13, weight: .semibold)
+        aboutToggleButton.contentHorizontalAlignment = .leading
+        aboutToggleButton.addTarget(self, action: #selector(toggleAbout), for: .touchUpInside)
+        aboutToggleButton.isHidden = true
 
         voiceActorsTitleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
         voiceActorsTitleLabel.text = AppStrings.Character.voiceActors
+    }
 
+    private func configureVoiceActors() {
         voiceActorsStack.axis = .vertical
         voiceActorsStack.spacing = 12
+    }
 
-        // Assemble. Spacers add a little breathing room before section headers.
+    private func assembleContentStack() {
+        // Assemble. Custom spacing adds a little breathing room before section headers.
         contentStack.addArrangedSubview(portraitContainer)
         contentStack.addArrangedSubview(nameLabel)
         contentStack.addArrangedSubview(kanjiLabel)
@@ -149,14 +184,20 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
         contentStack.setCustomSpacing(22, after: nicknamesLabel)
         contentStack.addArrangedSubview(aboutTitleLabel)
         contentStack.addArrangedSubview(aboutLabel)
-        contentStack.setCustomSpacing(22, after: aboutLabel)
+        contentStack.setCustomSpacing(4, after: aboutLabel)
+        contentStack.addArrangedSubview(aboutToggleButton)
+        contentStack.setCustomSpacing(22, after: aboutToggleButton)
         contentStack.addArrangedSubview(voiceActorsTitleLabel)
         contentStack.addArrangedSubview(voiceActorsStack)
+    }
 
+    private func configureLoadingIndicator() {
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(loadingIndicator)
+    }
 
+    private func activateConstraints() {
         let frame = scrollView.frameLayoutGuide
         let content = scrollView.contentLayoutGuide
         NSLayoutConstraint.activate([
@@ -187,6 +228,38 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
         loadPortrait(from: seedImageURL)
     }
 
+    // MARK: - Read more / Read less (biography)
+
+    @objc private func toggleAbout() {
+        isAboutExpanded.toggle()
+        aboutLabel.numberOfLines = isAboutExpanded ? 0 : collapsedAboutLines
+        aboutToggleButton.setTitle(
+            isAboutExpanded ? AppStrings.Detail.readLess : AppStrings.Detail.readMore,
+            for: .normal)
+        UIView.animate(withDuration: 0.25) { self.view.layoutIfNeeded() }
+    }
+
+    /// Shows the toggle only when the biography genuinely overflows the collapsed
+    /// line count. Runs after layout so the label has a resolved width.
+    private func updateAboutReadMoreVisibility() {
+        guard let text = aboutLabel.text, !text.isEmpty,
+              aboutLabel.bounds.width > 0,
+              let font = aboutLabel.font else { return }
+        let maxSize = CGSize(width: aboutLabel.bounds.width, height: .greatestFiniteMagnitude)
+        let bounding = (text as NSString).boundingRect(
+            with: maxSize,
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: [.font: font], context: nil)
+        let totalLines = Int(ceil(bounding.height / font.lineHeight))
+        let needsTruncation = totalLines > collapsedAboutLines
+        aboutToggleButton.isHidden = !needsTruncation
+        if !needsTruncation {
+            aboutLabel.numberOfLines = 0
+        } else if !isAboutExpanded {
+            aboutLabel.numberOfLines = collapsedAboutLines
+        }
+    }
+
     // MARK: - Theme
     @objc private func themeChanged() { applyTheme() }
 
@@ -200,6 +273,7 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
         nicknamesLabel.textColor = theme.secondaryText
         aboutTitleLabel.textColor = theme.bodyText
         aboutLabel.textColor = theme.bodyText.withAlphaComponent(0.85)
+        aboutToggleButton.setTitleColor(theme.accentPrimary, for: .normal)
         voiceActorsTitleLabel.textColor = theme.bodyText
         loadingIndicator.color = theme.accentPrimary
         setNeedsStatusBarAppearanceUpdate()
@@ -223,6 +297,12 @@ final class CharacterDetailViewController: UIViewController, CharacterDetailDisp
         nicknamesLabel.isHidden = viewModel.nicknames == nil
 
         aboutLabel.text = viewModel.about ?? AppStrings.Character.noAbout
+        // Reset the read-more state for the freshly-loaded bio; visibility is
+        // recomputed on the next layout pass once the label has a width.
+        isAboutExpanded = false
+        aboutLabel.numberOfLines = collapsedAboutLines
+        aboutToggleButton.setTitle(AppStrings.Detail.readMore, for: .normal)
+        view.setNeedsLayout()
 
         if let url = viewModel.imageURL { loadPortrait(from: url) }
 

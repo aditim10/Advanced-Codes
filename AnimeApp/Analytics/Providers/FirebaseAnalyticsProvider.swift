@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AnalyticsKit
 
 final class FirebaseAnalyticsProvider: AnalyticsProvider {
 

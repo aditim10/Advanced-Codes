@@ -41,7 +41,15 @@ public protocol VideoPlayerDelegate: AnyObject {
     /// Periodic playback progress (roughly twice a second while playing).
     func videoPlayer(_ player: VideoPlayerView, didProgressTo current: TimeInterval, duration: TimeInterval)
 
-    /// The user (or code) sought to `time` seconds.
+    /// Buffering started (`true`) or ended (`false`) — i.e. playback is stalled
+    /// waiting for data, or a seek is resolving.
+    func videoPlayer(_ player: VideoPlayerView, didChangeBufferingState isBuffering: Bool)
+
+    /// A seek to `time` seconds began (the player started resolving the new
+    /// position). Pairs with ``videoPlayer(_:didSeekTo:)`` when it lands.
+    func videoPlayer(_ player: VideoPlayerView, willSeekTo time: TimeInterval)
+
+    /// A seek finished and playback is positioned at `time` seconds.
     func videoPlayer(_ player: VideoPlayerView, didSeekTo time: TimeInterval)
 
     /// Volume or mute state changed.
@@ -65,6 +73,8 @@ public extension VideoPlayerDelegate {
     func videoPlayerDidPlay(_ player: VideoPlayerView) {}
     func videoPlayerDidPause(_ player: VideoPlayerView) {}
     func videoPlayer(_ player: VideoPlayerView, didProgressTo current: TimeInterval, duration: TimeInterval) {}
+    func videoPlayer(_ player: VideoPlayerView, didChangeBufferingState isBuffering: Bool) {}
+    func videoPlayer(_ player: VideoPlayerView, willSeekTo time: TimeInterval) {}
     func videoPlayer(_ player: VideoPlayerView, didSeekTo time: TimeInterval) {}
     func videoPlayer(_ player: VideoPlayerView, didChangeVolume volume: Float, isMuted: Bool) {}
     func videoPlayer(_ player: VideoPlayerView, didToggleFullscreen isFullscreen: Bool) {}

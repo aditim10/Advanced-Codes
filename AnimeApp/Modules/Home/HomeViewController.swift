@@ -50,6 +50,20 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         return banner
     }()
 
+    /// Inline, retryable error state shown when a load fails outright (e.g. the
+    /// API/network is down) — smoother than a modal alert over an empty screen.
+    private lazy var errorStateView: ErrorStateView = {
+        let v = ErrorStateView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.isHidden = true
+        v.onRetry = { [weak self] in
+            self?.hideErrorState()
+            self?.loadingIndicator.startAnimating()
+            self?.interactor?.refresh()
+        }
+        return v
+    }()
+
     // MARK: - Init / VIP setup (storyboard-instantiated → init?(coder:))
 
     required init?(coder: NSCoder) {
@@ -99,7 +113,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     /// reassign it so the table re-measures — this is what makes the banner reflow
     /// correctly on rotation, split-view resize, and iPad vs iPhone.
     private func sizeTableHeaderToFit() {
-        let width  = tableView.bounds.width
+        let width = tableView.bounds.width
         let height = Layout.bannerHeight(forAvailableHeight: view.bounds.height)
         guard width > 0,
               bannerContainer.frame.width != width || bannerContainer.frame.height != height
@@ -129,7 +143,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     private func setupUI() {
         navigationController?.setNavigationBarHidden(true, animated: false)
 
-        tableView.separatorStyle  = .none
+        tableView.separatorStyle = .none
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 40, right: 0)
         tableView.tableHeaderView = bannerContainer
         tableView.delegate = self
@@ -140,6 +154,14 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         let refresh = UIRefreshControl()
         refresh.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
         tableView.refreshControl = refresh
+
+        view.addSubview(errorStateView)
+        NSLayoutConstraint.activate([
+            errorStateView.topAnchor.constraint(equalTo: navBarView.bottomAnchor),
+            errorStateView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            errorStateView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            errorStateView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
 
     private func configureDataSource() {
@@ -165,6 +187,7 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
     func displaySnapshot(_ viewModel: Home.ViewModel) {
         loadingIndicator.stopAnimating()
         tableView.refreshControl?.endRefreshing()
+        hideErrorState()
 
         // Only rebuild the banner when its contents actually change. The Interactor
         // emits several snapshots while loading; reconfiguring on each one needlessly
@@ -186,15 +209,22 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         dataSource.apply(snapshot, animatingDifferences: false)
     }
 
+    // Called only on an outright load failure (the API/network is down). Partial
+    // failures degrade gracefully in the Interactor and never reach here.
     func displayError(_ message: String) {
         loadingIndicator.stopAnimating()
         tableView.refreshControl?.endRefreshing()
-        let alert = UIAlertController(title: AppStrings.Common.oops, message: message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: AppStrings.Common.retry, style: .default) { [weak self] _ in
-            self?.interactor?.loadInitial(request: Home.Load.Request())
-        })
-        alert.addAction(UIAlertAction(title: AppStrings.Common.ok, style: .cancel))
-        present(alert, animated: true)
+        errorStateView.configure(message: message)
+        guard errorStateView.isHidden else { return }
+        errorStateView.alpha = 0
+        errorStateView.isHidden = false
+        view.bringSubviewToFront(errorStateView)
+        UIView.animate(withDuration: 0.25) { self.errorStateView.alpha = 1 }
+    }
+
+    private func hideErrorState() {
+        guard !errorStateView.isHidden else { return }
+        errorStateView.isHidden = true
     }
 
     /// Called by the Router after a theme change so the View re-applies colours.
@@ -212,8 +242,8 @@ final class HomeViewController: UIViewController, HomeDisplayLogic {
         navBarView.backgroundColor = theme.navBarBackground
         navBarView.layer.shadowColor = theme.accentPrimary.withAlphaComponent(0.1).cgColor
         navBarView.layer.shadowOpacity = 1
-        navBarView.layer.shadowRadius  = 8
-        navBarView.layer.shadowOffset  = CGSize(width: 0, height: 2)
+        navBarView.layer.shadowRadius = 8
+        navBarView.layer.shadowOffset = CGSize(width: 0, height: 2)
 
         logoLabel.text = AppStrings.Home.brand
         logoLabel.font = .systemFont(ofSize: 26, weight: .black)
@@ -272,7 +302,79 @@ extension HomeViewController: UITableViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let offset = scrollView.contentOffset.y
-        let alpha  = min(1, max(0, offset / 60))
+        let alpha = min(1, max(0, offset / 60))
         navBarView.layer.shadowOpacity = Float(alpha * 0.15)
     }
+}
+
+// MARK: - ErrorStateView
+
+/// A calm, centered empty/error state: icon, message, and a Retry button. Used
+/// for smooth API-down handling instead of a modal alert over a blank screen.
+final class ErrorStateView: UIView {
+
+    /// Fired when the user taps Retry.
+    var onRetry: (() -> Void)?
+
+    private let iconView = UIImageView()
+    private let messageLabel = UILabel()
+    private let retryButton = UIButton(type: .system)
+
+    override init(frame: CGRect) { super.init(frame: frame); setup() }
+    required init?(coder: NSCoder) { super.init(coder: coder); setup() }
+    deinit { NotificationCenter.default.removeObserver(self) }
+
+    private func setup() {
+        iconView.image = UIImage(
+            systemName: "wifi.exclamationmark",
+            withConfiguration: UIImage.SymbolConfiguration(pointSize: 52, weight: .regular))
+        iconView.contentMode = .scaleAspectFit
+
+        messageLabel.font = .systemFont(ofSize: 15, weight: .medium)
+        messageLabel.textAlignment = .center
+        messageLabel.numberOfLines = 0
+
+        var cfg = UIButton.Configuration.filled()
+        cfg.title = AppStrings.Common.retry
+        cfg.cornerStyle = .capsule
+        cfg.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 28, bottom: 10, trailing: 28)
+        retryButton.configuration = cfg
+        retryButton.addTarget(self, action: #selector(retryTapped), for: .touchUpInside)
+
+        let stack = UIStackView(arrangedSubviews: [iconView, messageLabel, retryButton])
+        stack.axis = .vertical
+        stack.alignment = .center
+        stack.spacing = 16
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(stack)
+
+        NSLayoutConstraint.activate([
+            stack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            stack.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -40),
+            stack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 32),
+            stack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -32),
+        ])
+
+        applyTheme()
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(applyTheme),
+            name: ThemeManager.didChangeTheme, object: nil)
+    }
+
+    func configure(message: String) {
+        messageLabel.text = message
+    }
+
+    @objc private func applyTheme() {
+        let theme = ThemeManager.shared.current
+        backgroundColor = theme.background
+        iconView.tintColor = theme.accentPrimary.withAlphaComponent(0.85)
+        messageLabel.textColor = theme.secondaryText
+        var cfg = retryButton.configuration
+        cfg?.baseBackgroundColor = theme.accentPrimary
+        cfg?.baseForegroundColor = .white
+        retryButton.configuration = cfg
+    }
+
+    @objc private func retryTapped() { onRetry?() }
 }

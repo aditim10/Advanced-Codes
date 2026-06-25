@@ -19,21 +19,25 @@ protocol LoginDisplayLogic: AnyObject {
 final class LoginViewController: UIViewController, LoginDisplayLogic {
 
     // MARK: - IBOutlets
-    @IBOutlet weak var logoLabel:        UILabel!
-    @IBOutlet weak var taglineLabel:     UILabel!
-    @IBOutlet weak var formCard:         UIView!
-    @IBOutlet weak var emailField:       UITextField!
-    @IBOutlet weak var passwordField:    UITextField!
-    @IBOutlet weak var errorLabel:       UILabel!
-    @IBOutlet weak var loginButton:      UIButton!
+    @IBOutlet weak var logoLabel: UILabel!
+    @IBOutlet weak var taglineLabel: UILabel!
+    @IBOutlet weak var formCard: UIView!
+    @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var passwordField: UITextField!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
-    @IBOutlet weak var hintLabel:        UILabel!
+    @IBOutlet weak var hintLabel: UILabel!
 
     // MARK: - VIP collaborators
     var interactor: LoginBusinessLogic?
     var router: LoginRoutingLogic?
 
     private var gradientLayer: CAGradientLayer?
+
+    /// Name input, added in code above the storyboard's email field so we capture
+    /// a proper display name at sign-in (shown later in the profile menu).
+    private let nameField = UITextField()
 
     // MARK: - Init / VIP setup
     required init?(coder: NSCoder) {
@@ -58,6 +62,7 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGradient()
+        insertNameField()
         applyTheme()
         animateEntrance()
         NotificationCenter.default.addObserver(
@@ -74,10 +79,10 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
     // MARK: - Gradient background
     private func setupGradient() {
         let g = CAGradientLayer()
-        g.locations  = [0, 0.55, 1]
+        g.locations = [0, 0.55, 1]
         g.startPoint = CGPoint(x: 0, y: 0)
-        g.endPoint   = CGPoint(x: 1, y: 1)
-        g.frame      = view.bounds
+        g.endPoint = CGPoint(x: 1, y: 1)
+        g.frame = view.bounds
         view.layer.insertSublayer(g, at: 0)
         gradientLayer = g
     }
@@ -85,6 +90,27 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer?.frame = view.bounds
+    }
+
+    /// Inserts the name field at the top of the form card, re-pointing the email
+    /// field's top constraint to sit below it. Done in code so we don't have to
+    /// re-wire the storyboard form.
+    private func insertNameField() {
+        nameField.translatesAutoresizingMaskIntoConstraints = false
+        formCard.addSubview(nameField)
+
+        // Drop the storyboard constraint pinning the email field to the card top.
+        formCard.constraints.first {
+            ($0.firstItem as? UITextField) === emailField && $0.firstAttribute == .top
+        }?.isActive = false
+
+        NSLayoutConstraint.activate([
+            nameField.topAnchor.constraint(equalTo: formCard.topAnchor, constant: 24),
+            nameField.leadingAnchor.constraint(equalTo: formCard.leadingAnchor, constant: 20),
+            nameField.trailingAnchor.constraint(equalTo: formCard.trailingAnchor, constant: -20),
+            nameField.heightAnchor.constraint(equalTo: emailField.heightAnchor),
+            emailField.topAnchor.constraint(equalTo: nameField.bottomAnchor, constant: 12),
+        ])
     }
 
     // MARK: - Theme
@@ -95,45 +121,50 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
 
         gradientLayer?.colors = theme.gradientColors.map { $0.cgColor }
 
-        logoLabel.textColor    = theme.accentPrimary
-        logoLabel.font         = .systemFont(ofSize: 42, weight: .black)
+        logoLabel.textColor = theme.accentPrimary
+        logoLabel.font = .systemFont(ofSize: 42, weight: .black)
 
         taglineLabel.textColor = theme.secondaryText
-        taglineLabel.font      = .systemFont(ofSize: 15, weight: .regular)
-        taglineLabel.text      = AppStrings.Login.tagline
+        taglineLabel.font = .systemFont(ofSize: 15, weight: .regular)
+        taglineLabel.text = AppStrings.Login.tagline
 
-        formCard.backgroundColor    = theme.cardBackground
+        formCard.backgroundColor = theme.cardBackground
         formCard.layer.cornerRadius = 24
-        formCard.layer.shadowColor  = theme.accentPrimary.withAlphaComponent(0.18).cgColor
+        formCard.layer.shadowColor = theme.accentPrimary.withAlphaComponent(0.18).cgColor
         formCard.layer.shadowOpacity = 1
-        formCard.layer.shadowRadius  = 24
-        formCard.layer.shadowOffset  = CGSize(width: 0, height: 8)
+        formCard.layer.shadowRadius = 24
+        formCard.layer.shadowOffset = CGSize(width: 0, height: 8)
 
+        styleTextField(nameField,     placeholder: AppStrings.Login.namePlaceholder,     icon: "person",   secure: false, theme: theme)
         styleTextField(emailField,    placeholder: AppStrings.Login.emailPlaceholder,    icon: "envelope", secure: false, theme: theme)
         styleTextField(passwordField, placeholder: AppStrings.Login.passwordPlaceholder, icon: "lock",     secure: true,  theme: theme)
-        emailField.keyboardType     = .emailAddress
-        emailField.returnKeyType    = .next
+        nameField.autocapitalizationType = .words
+        nameField.textContentType = .name
+        nameField.returnKeyType = .next
+        emailField.keyboardType = .emailAddress
+        emailField.returnKeyType = .next
         passwordField.returnKeyType = .done
-        emailField.delegate         = self
-        passwordField.delegate      = self
+        nameField.delegate = self
+        emailField.delegate = self
+        passwordField.delegate = self
 
         loginButton.setTitle(AppStrings.Login.signIn, for: .normal)
-        loginButton.titleLabel?.font      = .systemFont(ofSize: 16, weight: .semibold)
+        loginButton.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         loginButton.setTitleColor(.white, for: .normal)
-        loginButton.backgroundColor       = theme.accentPrimary
-        loginButton.layer.cornerRadius    = 16
-        loginButton.layer.shadowColor     = theme.accentPrimary.cgColor
-        loginButton.layer.shadowOpacity   = 0.4
-        loginButton.layer.shadowRadius    = 10
-        loginButton.layer.shadowOffset    = CGSize(width: 0, height: 4)
+        loginButton.backgroundColor = theme.accentPrimary
+        loginButton.layer.cornerRadius = 16
+        loginButton.layer.shadowColor = theme.accentPrimary.cgColor
+        loginButton.layer.shadowOpacity = 0.4
+        loginButton.layer.shadowRadius = 10
+        loginButton.layer.shadowOffset = CGSize(width: 0, height: 4)
 
-        errorLabel.textColor     = theme.accentSecondary
-        errorLabel.font          = .systemFont(ofSize: 13)
+        errorLabel.textColor = theme.accentSecondary
+        errorLabel.font = .systemFont(ofSize: 13)
         errorLabel.numberOfLines = 0
 
-        hintLabel.text      = AppStrings.Login.hint
+        hintLabel.text = AppStrings.Login.hint
         hintLabel.textColor = theme.secondaryText.withAlphaComponent(0.7)
-        hintLabel.font      = .systemFont(ofSize: 12)
+        hintLabel.font = .systemFont(ofSize: 12)
 
         // Storyboard labels inherit a dynamic default background that turns dark
         // under system Dark Mode; force them transparent so text stays readable.
@@ -153,32 +184,40 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
         }
 
         loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.color            = .white
+        loadingIndicator.color = .white
     }
 
     private func styleTextField(_ tf: UITextField, placeholder: String, icon: String,
                                  secure: Bool, theme: AppTheme) {
-        tf.placeholder            = placeholder
-        tf.isSecureTextEntry      = secure
-        tf.backgroundColor        = theme.cardBackground.withAlphaComponent(0.8)
-        tf.textColor              = theme.bodyText
-        tf.tintColor              = theme.accentPrimary
-        tf.layer.cornerRadius     = 14
-        tf.layer.borderWidth      = 1.5
-        tf.layer.borderColor      = theme.accentPrimary.withAlphaComponent(0.25).cgColor
-        tf.autocorrectionType     = .no
+        tf.placeholder = placeholder
+        tf.isSecureTextEntry = secure
+        tf.backgroundColor = theme.cardBackground.withAlphaComponent(0.8)
+        tf.textColor = theme.bodyText
+        tf.tintColor = theme.accentPrimary
+        tf.layer.cornerRadius = 14
+        tf.layer.borderWidth = 1.5
+        tf.layer.borderColor = theme.accentPrimary.withAlphaComponent(0.25).cgColor
+        tf.autocorrectionType = .no
         tf.autocapitalizationType = .none
-        tf.borderStyle            = .none
-        tf.font                   = .systemFont(ofSize: 15)
+        tf.borderStyle = .none
+        tf.font = .systemFont(ofSize: 15)
 
         let iconImage = UIImage(systemName: icon,
-                                withConfiguration: UIImage.SymbolConfiguration(pointSize: 14, weight: .medium))
-        let iconView  = UIImageView(image: iconImage)
-        iconView.tintColor    = theme.accentPrimary.withAlphaComponent(0.6)
-        iconView.contentMode  = .scaleAspectFit
-        iconView.frame        = CGRect(x: 0, y: 0, width: 38, height: 20)
-        tf.leftView           = iconView
-        tf.leftViewMode       = .always
+                                withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .medium))
+        let iconView = UIImageView(image: iconImage)
+        iconView.tintColor = theme.accentPrimary.withAlphaComponent(0.6)
+        iconView.contentMode = .center
+        // Container gives clear left padding (16) before the icon and a real gap
+        // (14) between the icon and the text, instead of the cramped default.
+        let iconSize: CGFloat = 20
+        let leftPadding: CGFloat = 16
+        let iconToText: CGFloat = 14
+        iconView.frame = CGRect(x: leftPadding, y: 0, width: iconSize, height: 22)
+        let container = UIView(frame: CGRect(
+            x: 0, y: 0, width: leftPadding + iconSize + iconToText, height: 22))
+        container.addSubview(iconView)
+        tf.leftView = container
+        tf.leftViewMode = .always
 
         tf.attributedPlaceholder = NSAttributedString(
             string: placeholder,
@@ -192,14 +231,14 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
         let theme = ThemeManager.shared.current
         UIView.animate(withDuration: 0.2) {
             tf.layer.borderColor = theme.accentPrimary.cgColor
-            tf.backgroundColor   = theme.cardBackground
+            tf.backgroundColor = theme.cardBackground
         }
     }
     @objc private func fieldBlurred(_ tf: UITextField) {
         let theme = ThemeManager.shared.current
         UIView.animate(withDuration: 0.2) {
             tf.layer.borderColor = theme.accentPrimary.withAlphaComponent(0.25).cgColor
-            tf.backgroundColor   = theme.cardBackground.withAlphaComponent(0.8)
+            tf.backgroundColor = theme.cardBackground.withAlphaComponent(0.8)
         }
     }
 
@@ -207,7 +246,7 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
     private func animateEntrance() {
         let views: [UIView?] = [logoLabel, taglineLabel, formCard, hintLabel]
         views.forEach {
-            $0?.alpha     = 0
+            $0?.alpha = 0
             $0?.transform = CGAffineTransform(translationX: 0, y: 40)
         }
         views.enumerated().forEach { idx, v in
@@ -223,7 +262,7 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
         dismissKeyboard()
         hideError()
         interactor?.signIn(request: Login.SignIn.Request(
-            email: emailField.text, password: passwordField.text))
+            email: emailField.text, password: passwordField.text, name: nameField.text))
     }
 
     @objc private func dismissKeyboard() { view.endEditing(true) }
@@ -232,7 +271,7 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
 
     func displayLoading(_ isLoading: Bool) {
         loginButton.isEnabled = !isLoading
-        loginButton.alpha     = isLoading ? 0.65 : 1.0
+        loginButton.alpha = isLoading ? 0.65 : 1.0
         isLoading ? loadingIndicator.startAnimating() : loadingIndicator.stopAnimating()
     }
 
@@ -242,7 +281,7 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
         let anim = CAKeyframeAnimation(keyPath: "transform.translation.x")
         anim.timingFunction = CAMediaTimingFunction(name: .linear)
         anim.duration = 0.4
-        anim.values   = [-8, 8, -6, 6, -4, 4, 0]
+        anim.values = [-8, 8, -6, 6, -4, 4, 0]
         formCard.layer.add(anim, forKey: "shake")
     }
 
@@ -257,8 +296,11 @@ final class LoginViewController: UIViewController, LoginDisplayLogic {
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if textField == emailField { passwordField.becomeFirstResponder() }
-        else { loginTapped(loginButton) }
+        switch textField {
+        case nameField: emailField.becomeFirstResponder()
+        case emailField: passwordField.becomeFirstResponder()
+        default: loginTapped(loginButton)
+        }
         return true
     }
 }

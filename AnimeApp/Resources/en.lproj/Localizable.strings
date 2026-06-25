@@ -15,10 +15,12 @@
 
 // Login
 "login.tagline"               = "Unlimited anime. Any time.";
+"login.name"                  = "Full name";
 "login.email"                 = "Email address";
 "login.password"              = "Password";
 "login.sign_in"               = "Sign In";
-"login.hint"                  = "Demo: any valid email + 6+ char password";
+"login.hint"                  = "Demo: enter your name, any valid email + 6+ char password";
+"login.error.empty_name"      = "Please enter your name.";
 "login.error.empty_email"     = "Please enter your email.";
 "login.error.invalid_email"   = "Please enter a valid email address.";
 "login.error.empty_password"  = "Please enter your password.";
@@ -39,3 +41,17 @@
 "detail.synopsis"    = "Synopsis";
 "detail.watch_now"   = "▶  Watch Now";
 "detail.no_synopsis" = "No synopsis available.";
+"detail.read_more"   = "Read more";
+"detail.read_less"   = "Read less";
+
+// Ads
+"ads.preferences.title"   = "Ad Preferences";
+"ads.preferences.message" = "Choose how many ads play during videos.";
+"ads.label"               = "Ad";
+"ads.skip"                = "Skip Ad";
+"ads.learn_more"          = "Learn More";
+"ads.skip_in"             = "Skip in %d";
+"ads.ad_of_count"         = "Ad %d of %d";
+"ads.tier.ad_free"        = "Ad-free";
+"ads.tier.ad_lite"        = "Ad-lite (fewer ads)";
+"ads.tier.ad_supported"   = "Ad-supported";
